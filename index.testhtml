@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Infrastructure Adventure</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Remove sidebar-expanded class from container -->
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <h1><i class="fas fa-cloud"></i> Welcome to My Altschool Cloud Project</h1>
+
+        <h2>Choose your adventure path</h2>
+
+        <!-- Path buttons -->
+        <div class="path-buttons">
+            <button class="button start-button beginner" onclick="revealStep(6)">
+                <i class="fas fa-baby"></i> Beginner's Path
+            </button>
+        </div>    
+        
+    <script src="script.js"></script>
+</body>
+</html>

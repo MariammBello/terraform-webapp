@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Infrastructure Adventure</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Update burger menu button -->
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars" id="menuIcon"></i>
+    </button>
+
+    <!-- Update sidebar to have collapsed class by default -->
+    <div class="sidebar collapsed" id="introSidebar">
+        <div class="sidebar-content">
+            <img src="https://avatars.githubusercontent.com/u/129985082?v=4" alt="Profile Photo" class="profile-photo">
+            <h1>Mariam Bello</h1>
+            <div class="bio-section">
+                <h3><i class="fas fa-user"></i> About Me</h3>
+                <p>Cloud Engineer and passionate educator, dedicated to making complex infrastructure concepts accessible to everyone.</p>
+                
+                <h3><i class="fas fa-graduation-cap"></i> Project Description</h3>
+                <p>An interactive guide to deploying web applications on AWS, designed to teach both beginners and advanced users through a gamified experience.  I created this interactive tutorial to help others master cloud infrastructure deployment. My approach combines practical experience with engaging teaching methods.</p>
+            </div>
+            <div class="social-links">
+                <h3><i class="fas fa-share-alt"></i> Connect With Me</h3>
+                <div class="social-icons">
+                    <a href="https://github.com/yourusername" target="_blank" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" title="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://twitter.com/yourusername" target="_blank" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="mailto:your.email@example.com" title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <button class="button start-tutorial" onclick="startTutorial()">
+                <i class="fas fa-rocket"></i> Start Learning
+            </button>
+        </div>
+    </div>
+
+    <!-- Remove sidebar-expanded class from container -->
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <h1><i class="fas fa-cloud"></i> Welcome to My Altschool Cloud Project</h1>
+
+        <h2>Choose your adventure path</h2>
+        
+        <!-- Path description cards -->
+        <div class="path-cards">
+            <div class="path-card beginner-card">
+                <i class="fas fa-baby path-icon"></i>
+                <h3>Beginner's Path</h3>
+                <p>Perfect for those new to cloud deployment. Learn how to:</p>
+                <ul>
+                    <li>Manually provision AWS EC2 instances</li>
+                    <li>Set up a web server step by step</li>
+                    <li>Deploy and verify your application</li>
+                </ul>
+            </div>
+            <div class="path-card advanced-card">
+                <i class="fas fa-terminal path-icon"></i>
+                <h3>Advanced Path</h3>
+                <p>For those ready to level up their deployment game. Learn:</p>
+                <ul>
+                    <li>Automation with bash scripting</li>
+                    <li>Infrastructure as Code with Terraform</li>
+                    <li>Setting up S3 to serve frontend content</li>
+                    <li>Automated deployment processes</li>
+                    <li>SSL certificate generation</li>
+                    <li>Custom domain configuration</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Path buttons -->
+        <div class="path-buttons">
+            <button class="button start-button beginner" onclick="revealStep(6)">
+                <i class="fas fa-baby"></i> Beginner's Path
+            </button>
+            <button class="button start-button advanced" onclick="revealStep(1)">
+                <i class="fas fa-terminal"></i> Advanced Path (Terraform)
+            </button>
+            <button class="button reset-button" onclick="window.location.reload()">
+                <i class="fas fa-redo"></i> Reset Journey
+            </button>
+        </div>
+        
+        <!-- Advanced Path Container -->
+        <div id="advanced-path" class="path-container hidden">
+            <div id="step1" class="hidden step">
+                <div class="step-header">
+                    <span class="step-number">01</span>
+                    <h2><i class="fas fa-server"></i> Infrastructure Code Setup with Bash, Terraform and AWS S3</h2>
+                </div>
+                <p>Get started with the infrastructure code:</p>
+                <div class="setup-container full-width">
+                    <h3><i class="fas fa-list-check"></i> Prerequisites</h3>
+                    <div class="setup-steps">
+                        <ol>
+                            <li>Ensure Terraform is installed: 
+                                <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli" target="_blank">
+                                    <i class="fas fa-download"></i> Install Terraform
+                                </a>
+                            </li>
+                            <li>Purchase a domain name: 
+                                <a href="https://domains.google.com" target="_blank">
+                                    <i class="fas fa-globe"></i> Google Domains
+                                </a> or
+                                <a href="https://www.namecheap.com" target="_blank">
+                                    <i class="fas fa-globe"></i> Namecheap
+                                </a>
+                            </li>
+                            <li>Clone the repository: 
+                                <a href="https://github.com/yourusername/terraform-web-deploy" target="_blank">
+                                    <i class="fab fa-github"></i> Terraform Web Deployment
+                                </a>
+                            </li>
+                            <li>Ensure you update frontend files (index.html, style.css, script.js) to preference in the same directory</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <button class="button next-button" onclick="revealStep(2)">Deployment Steps <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div id="step2" class="hidden step">
+                <div class="step-header">
+                    <span class="step-number">02</span>
+                    <h2><i class="fas fa-network-wired"></i> IP & Domain Setup</h2>
+                </div>
+                <p>Set up your static IP and configure your domain:</p>
+                <div class="deployment-steps">
+                    <h3>Domain Configuration Process</h3>
+                    <div class="code-snippet">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre>
+# Step 1: Create and get Elastic IP
+terraform init
+terraform apply -target=aws_eip.web_eip
+terraform output public_ip
+
+# Step 2: Configure Domain DNS
+# Go to your domain provider and add an A record:
+# Type: A
+# Name: @ (or subdomain)
+# Value: [Your Elastic IP from above]
+# TTL: 3600 (or as preferred)</pre>
+                    </div>
+                    <div class="deployment-explanation">
+                        <p><strong>What's happening?</strong></p>
+                        <ol>
+                            <li>Creating a static IP that will remain constant for your domain</li>
+                            <li>Linking your domain name to this IP address</li>
+                        </ol>
+                        <div class="note">
+                            <p><i class="fas fa-info-circle"></i> Wait for DNS propagation (usually 15-30 minutes) before proceeding to the next step.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="button next-button" onclick="revealStep(3)">Continue to Deployment <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div id="step3" class="hidden step">
+                <div class="step-header">
+                    <span class="step-number">03</span>
+                    <h2><i class="fas fa-rocket"></i> Deploy Full Infrastructure</h2>
+                </div>
+                <p>Deploy your complete infrastructure with SSL:</p>
+                <div class="deployment-steps">
+                    <div class="code-snippet">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre>
+# Deploy the full infrastructure
+terraform apply</pre>
+                    </div>
+                    <div class="deployment-explanation">
+                        <p><strong>This command will:</strong></p>
+                        <ul>
+                            <li>Create and configure the EC2 instance with Ubuntu as the base image</li>
+                            <li>Set up security groups to configure security rules for allowing web and SSH traffic</li>
+                            <li>Install and configure Nginx automatically</li>
+                            <li>Deploy your website files to the Nginx webserver</li>
+                            <li>Configure SSL certificates automatically</li>
+                            <li><strong>Start the web service</strong> automatically</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="button next-button" onclick="revealStep(4)">Next Step <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div id="step4" class="hidden step">
+                <div class="step-header">
+                    <span class="step-number">04</span>
+                    <h2><i class="fas fa-trophy"></i> Mission Accomplished!</h2>
+                </div>
+                <div class="celebration">
+                    <p>Congratulations! You've completed the automated deployment journey!</p>
+                    <div class="achievement final">
+                        <i class="fas fa-star achievement-icon"></i>
+                        <span>Infrastructure as Code Master Achievement Unlocked!</span>
+                    </div>
+                    <div class="note">
+                        <p><i class="fas fa-info-circle"></i> Your website should now be accessible at: <code>https://your-domain.com</code></p>
+                    </div>
+                </div>
+                <button class="button restart-button" onclick="window.location.reload()">
+                    <i class="fas fa-redo"></i> Start Over
+                </button>
+            </div>
+        </div>
+
+        <!-- Beginner Path Container -->
+        <div id="beginner-path" class="path-container hidden">
+            <div id="step6" class="hidden step">
+                <div class="step-content">
+                    <div class="step-header">
+                        <span class="step-number">B1</span>
+                        <h2><i class="fas fa-graduation-cap"></i> Provisioning the server Manually</h2>
+                    </div>
+                    <div class="beginner-guide">
+                        <div class="flex-container">
+                            <div class="setup-container">
+                                <ol class="setup-steps">
+                                    <li>Sign up for an AWS account</li>
+                                    <li>Navigate to EC2 Dashboard</li>
+                                    <li>Launch a new EC2 instance</li>
+                                    <li>Configure Security Groups</li>
+                                    <li>Navigate to acquire instance details</li>
+                    
+                                </ol>
+                            </div>
+                            <div class="media-container">
+                                <iframe 
+                                    src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                                    title="AWS EC2 Instance Setup"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>           
+                    <button class="button next-button" onclick="revealStep(7)">Continue Journey <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div id="step7" class="hidden step">
+                <div class="step-header">
+                    <span class="step-number">B2</span>
+                    <h2><i class="fas fa-code"></i> Webserver setup </h2>
+                </div>
+                <div class="beginner-guide">
+                    <div class="flex-container">
+                        <div class="setup-container">
+                            <h3><i class="fas fa-terminal"></i> SSH Into Your Server</h3>
+                            <div class="code-snippet">
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                                <pre>
+# SSH into your EC2 instance
+ssh -i "your-key.pem" ubuntu@your-ec2-ip
+
+# Install and configure web server
+sudo apt update
+sudo apt install nginx -y
+sudo systemctl start nginx
+sudo systemctl enable nginx</pre>
+                            </div>
+                        </div>
+                        <div class="media-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/YOUR_SSH_VIDEO_ID"
+                                title="SSH and Nginx Setup"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    
+                    <h3><i class="fas fa-file-code"></i> Deploy Frontend Files on the virtual machine</h3>
+                    <div class="deployment-steps">
+                        <div class="code-snippet">
+                            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            <pre>scp -i "your-key.pem" {index.html,style.css,script.js} ubuntu@your-ec2-ip:/var/www/html/
+scp -i "your-key.pem" -r gifs/ ubuntu@your-ec2-ip:/var/www/html/
+sudo systemctl restart nginx</pre>
+                        </div>
+                    </div>
+                </div>           
+                <button class="button next-button" onclick="revealStep(8)">Verify Deployment <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div id="step8" class="hidden step">
+                <div class="step-header">
+                    <span class="step-number">B3</span>
+                    <h2><i class="fas fa-check-circle"></i> Verify Deployment</h2>
+                </div>
+                <div class="verification-guide">
+                    <p>Access your website:</p>
+                    <div class="flex-container">
+                        <div class="setup-container">
+                            <ol class="setup-steps">
+                                <li>Get your EC2 instance's public IP from AWS Console</li>
+                                <li>Open your browser and visit: <code>http://YOUR_EC2_IP</code></li>
+                                <li>Verify all elements are loading correctly</li>
+                                <li>Check if GIFs are displaying properly</li>
+                            </ol>
+                        </div>
+                        <div class="media-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/YOUR_VERIFY_VIDEO_ID"
+                                title="Deployment Verification"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <button class="button next-button" onclick="revealStep(9)">Complete tutorial <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div id="step9" class="hidden step">
+                <div class="step-header">
+                    <span class="step-number">B4</span>
+                    <h2><i class="fas fa-trophy"></i> Mission Accomplished!</h2>
+                </div>
+                <div class="celebration">
+                    <p>Congratulations! You've completed the manual deployment journey!</p>
+                    <div class="achievement final">
+                        <i class="fas fa-star achievement-icon"></i>
+                        <span>Cloud Engineer Achievement Unlocked!</span>
+                    </div>
+                    <div class="note">
+                        <p><i class="fas fa-info-circle"></i> Your website should now be accessible at: <code>http://YOUR_EC2_IP</code></p>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="button restart-button" onclick="window.location.reload()">
+                        <i class="fas fa-redo"></i> Start Over
+                    </button>
+                    <button class="button advanced-button" onclick="revealStep(1)">
+                        <i class="fas fa-level-up-alt"></i> Level Up to Advanced Path
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
