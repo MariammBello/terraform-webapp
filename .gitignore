@@ -1,4 +1,4 @@
-index.test.html
+index_test.html
 style_test.css
-terraform.lock.hcl
+.terraform.lock.hcl
 .terraform
