@@ -2,3 +2,7 @@ index_test.html
 style_test.css
 .terraform.lock.hcl
 .terraform
+terraform.tfstate
+terraform.tfstate.backup
+mariamhostspace.pub
+bible
