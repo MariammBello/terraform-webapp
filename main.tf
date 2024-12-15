@@ -1,3 +1,15 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+    ssh = {
+      source = "loafoe/ssh"
+      version = "2.6.0"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-east-1"
 }
@@ -212,6 +224,34 @@ resource "aws_instance" "web_server" {
 resource "aws_eip" "web_eip" {
   instance = aws_instance.web_server.id
   domain   = "vpc"
+}
+
+resource "ssh_resource" "web_init" {
+  depends_on = [aws_instance.web_server]
+  
+  host = aws_eip.web_eip.public_ip
+  user = "ubuntu"
+  private_key = file("mariamhostspace.pem")
+
+  timeout = "5m"
+  retry_delay = "5s"
+
+  commands = [
+    "sleep 30",
+    "sudo -i aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.html_file.key} /var/www/html/",
+    "sudo -i aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.css_file.key} /var/www/html/",
+    "sudo -i aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.js_file.key} /var/www/html/",
+    "sudo chown -R www-data:www-data /var/www/html",
+    "sudo chmod -R 755 /var/www/html",
+    "ls -la /var/www/html",
+    "sudo systemctl restart nginx"
+  ]
+
+  triggers = {
+    html_etag = aws_s3_object.html_file.etag
+    css_etag = aws_s3_object.css_file.etag
+    js_etag = aws_s3_object.js_file.etag
+  }
 }
 
 // Outputs
