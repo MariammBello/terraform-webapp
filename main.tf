@@ -89,6 +89,15 @@ resource "aws_s3_object" "js_file" {
   etag = filemd5("script.js")
 }
 
+// First: When uploading the config to S3
+resource "aws_s3_object" "nginx_config" {
+  bucket = aws_s3_bucket.static_files.id
+  key    = "default.conf"
+  source = "default.conf"
+  content_type = "text/plain"
+  etag = filemd5("default.conf")
+}
+
 // IAM role with fixed name
 resource "aws_iam_role" "ec2_role" {
   name = "altschool-ec2-role"  // Fixed name
@@ -198,6 +207,12 @@ resource "aws_key_pair" "deployer" {
 
 // EC2 instance with direct references
 resource "aws_instance" "web_server" {
+  depends_on = [
+    aws_iam_instance_profile.ec2_profile,
+    aws_security_group.web_sg,
+    aws_s3_object.nginx_config
+  ]
+  
   ami           = "ami-0e2c8caa4b6378d8c"  // Updated AMI
   instance_type = "t2.micro"               // Changed from t3.micro
   key_name      = aws_key_pair.deployer.key_name  // Reference the created key pair
@@ -209,6 +224,8 @@ resource "aws_instance" "web_server" {
     html_key    = aws_s3_object.html_file.key
     css_key     = aws_s3_object.css_file.key
     js_key      = aws_s3_object.js_file.key
+    nginx_config_key = aws_s3_object.nginx_config.key
+    domain_name = var.domain_name
   }))
 
   lifecycle {
@@ -226,6 +243,7 @@ resource "aws_eip" "web_eip" {
   domain   = "vpc"
 }
 
+// Second: In the ssh_resource that runs commands on the EC2 instance
 resource "ssh_resource" "web_init" {
   depends_on = [aws_instance.web_server]
   
@@ -237,13 +255,25 @@ resource "ssh_resource" "web_init" {
   retry_delay = "5s"
 
   commands = [
-    "sleep 30",
-    "sudo -i aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.html_file.key} /var/www/html/",
-    "sudo -i aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.css_file.key} /var/www/html/",
-    "sudo -i aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.js_file.key} /var/www/html/",
+    "sleep 60",
+    # Copy and execute install_webserver.sh with the nginx config
+    "echo '${templatefile("install_webserver.sh", {
+      bucket_name = aws_s3_bucket.static_files.id
+      html_key    = aws_s3_object.html_file.key
+      css_key     = aws_s3_object.css_file.key
+      js_key      = aws_s3_object.js_file.key
+      nginx_config_key = aws_s3_object.nginx_config.key  // This references the config
+      domain_name = var.domain_name
+    })}' > /tmp/install_webserver.sh",
+    "chmod +x /tmp/install_webserver.sh",
+    "sudo /tmp/install_webserver.sh",
+    
+    # Additional file updates if needed
+    "sudo aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.html_file.key} /var/www/html/",
+    "sudo aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.css_file.key} /var/www/html/",
+    "sudo aws s3 cp s3://${aws_s3_bucket.static_files.id}/${aws_s3_object.js_file.key} /var/www/html/",
     "sudo chown -R www-data:www-data /var/www/html",
     "sudo chmod -R 755 /var/www/html",
-    "ls -la /var/www/html",
     "sudo systemctl restart nginx"
   ]
 
@@ -251,6 +281,7 @@ resource "ssh_resource" "web_init" {
     html_etag = aws_s3_object.html_file.etag
     css_etag = aws_s3_object.css_file.etag
     js_etag = aws_s3_object.js_file.etag
+    nginx_config_etag = aws_s3_object.nginx_config.etag
   }
 }
 
@@ -263,4 +294,15 @@ output "public_ip" {
 output "bucket_name" {
   value = aws_s3_bucket.static_files.id
   description = "Name of the created S3 bucket"
+}
+
+output "ssl_domain" {
+  value = var.domain_name != "" ? var.domain_name : "${aws_eip.web_eip.public_ip}.nip.io"
+  description = "Domain name or IP used for SSL certificate"
+}
+
+variable "domain_name" {
+  description = "Domain name for SSL certificate"
+  type        = string
+  default     = "cloud.3figirl.com"  # Will use public IP if no domain provided
 }

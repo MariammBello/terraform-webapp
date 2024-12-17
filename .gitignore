@@ -6,3 +6,5 @@ terraform.tfstate
 terraform.tfstate.backup
 mariamhostspace.pub
 bible
+mariamhostspace.pem
+readme.md
