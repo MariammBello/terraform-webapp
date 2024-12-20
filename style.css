@@ -1,116 +1,121 @@
-/* Update menu toggle styles */
-.menu-toggle {
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    background: rgba(33, 150, 243, 0.9);
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
+/* Remove sidebar-related styles */
+/* Remove .sidebar, .menu-toggle, and related styles */
+
+/* Update container styles to remove sidebar-related margins */
+.container {
+    margin-left: 0;
+    text-align: center;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Update modal styles */
+.modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+    margin: 15% auto; /* Increased from 10% to push it higher */
+    padding: 25px; /* Reduced padding */
+    border: 2px solid #00d4ff;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 320px; /* Reduced from 400px */
+    position: relative;
+    text-align: center;
     color: white;
+    animation: bounceInBig 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+}
+
+.modal-content .profile-photo {
+    width: 80px; /* Reduced from 100px */
+    height: 80px; /* Reduced from 100px */
+    margin-bottom: 1rem;
+    border: 2px solid #00d4ff;
+    border-radius: 50%; /* Make image circular */
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    object-fit: cover; /* Ensure image fills circle without distortion */
+}
+
+.modal-content h2 {
+    font-family: 'Playfair Display', serif; /* More fancy font */
+    font-size: 1.5em; /* Reduced from 1.8em */
+    margin: 0.8rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content .bio-section {
+    font-family: 'Crimson Text', serif; /* Elegant font for bio */
+    font-size: 1em; /* Reduced from 1.1em */
+    margin: 0.8rem 0;
+    line-height: 1.5;
+}
+
+.modal-content .button {
+    margin-top: 1rem;
+    width: auto;
+    min-width: 160px;
+    padding: 8px 16px;
+}
+
+/* Fix About Me button positioning */
+.about-me-btn {
+    position: fixed;
+    top: 20px; /* Changed from bottom to top */
+    right: 20px;
+    background: rgba(33, 150, 243, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 1000;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.2em;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
+    gap: 8px;
+    font-size: 0.9em;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
 }
 
-.menu-toggle:hover {
-    transform: scale(1.1);
+.modal-content .button {
+    margin-top: 2rem;
+    width: auto;
+    min-width: 200px;
+    padding: 12px 24px;
 }
+
+/* Update menu toggle styles */
+/* Remove .menu-toggle styles */
 
 /* Add icon rotation for collapsed state */
-.sidebar.collapsed + .container .menu-toggle i {
-    transform: rotate(180deg);
-}
-
-.menu-toggle i {
-    transition: transform 0.3s ease;
-}
+/* Remove .sidebar.collapsed + .container .menu-toggle i styles */
 
 /* Update sidebar position styles */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 300px;
-    height: 100vh;
-    background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
-    z-index: 1000;
-    overflow-y: auto;
-    border-right: 1px solid rgba(0, 212, 255, 0.1);
-    transform: translateX(0);
-    transition: transform 0.3s ease-in-out;
-}
+/* Remove .sidebar styles */
 
-.sidebar.collapsed {
-    transform: translateX(-300px);
-}
+/* Remove .sidebar.collapsed styles */
 
-.sidebar.collapsed ~ .container .menu-toggle {
-    left: 0;
-}
+/* Remove .sidebar.collapsed ~ .container .menu-toggle styles */
 
-.sidebar-content {
-    padding: 1.5rem;
-    color: #fff;
-}
+/* Remove .sidebar-content styles */
 
-.profile-photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid #00d4ff;
-    margin-bottom: 1rem;
-}
+/* Remove .profile-photo styles */
 
-.sidebar h1 {
-    font-size: 1.5em;
-    margin-bottom: 0.5rem;
-}
+/* Remove .sidebar h1 styles */
 
-.sidebar h2 {
-    font-size: 1.2em;
-    margin-bottom: 1.5rem;
-}
+/* Remove .sidebar h2 styles */
 
-.bio-section {
-    text-align: left;
-    margin: 1.5rem 0;
-}
+/* Remove .bio-section styles */
 
-.bio-section h3 {
-    font-size: 1em;
-    color: #00d4ff;
-    margin: 1rem 0 0.5rem;
-}
+/* Remove .bio-section h3 styles */
 
-.bio-section p {
-    font-size: 0.9em;
-    margin: 0.5rem 0;
-    line-height: 1.4;
-}
+/* Remove .bio-section p styles */
 
-.skills-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
+/* Remove .skills-list styles */
 
-.skills-list li {
-    font-size: 0.8em;
-    padding: 0.3rem 0.8rem;
-}
+/* Remove .skills-list li styles */
 
-.start-tutorial {
-    width: 100%;
-    margin-top: 1.5rem;
-}
+/* Remove .start-tutorial styles */
 
 /* Add before .start-tutorial styles */
 .social-links {
@@ -772,4 +777,504 @@ p {
     background: #1976D2;
 }
 
+/* Mobile Responsiveness Improvements */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        margin: 15px 0;
+    }
+
+    h2 {
+        font-size: 1.5em;
+        margin: 12px 0;
+    }
+
+    .path-cards {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 10px;
+    }
+
+    .path-card {
+        margin: 0;
+        padding: 1.5rem;
+    }
+
+    .path-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 0 10px;
+    }
+
+    .button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .flex-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .setup-steps {
+        padding: 1rem;
+    }
+
+    .code-snippet {
+        font-size: 0.9em;
+    }
+
+    .deployment-steps {
+        padding: 0.8rem;
+    }
+
+    .menu-toggle {
+        top: 0.5rem;
+        left: 0.5rem;
+        width: 40px;
+        height: 40px;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .sidebar-content {
+        padding: 1rem;
+    }
+
+    .profile-photo {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 375px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    .path-card {
+        padding: 1rem;
+    }
+
+    .setup-steps {
+        padding: 0.8rem;
+    }
+}
+
 /* ...rest of existing code... */
+
+/* Search Container */
+.search-container {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 40px 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-container input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.5);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Carousel Styles */
+.carousel-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0;  /* Remove padding here */
+    overflow: visible; /* Allow buttons to be placed outside */
+}
+
+.carousel-track {
+    display: flex;
+    gap: 2rem;
+    transition: transform 0.5s ease;
+    padding: 1rem 0;
+    margin: 0 60px; /* Add margin instead of container padding */
+}
+
+.path-card {
+    flex: 0 0 300px;
+    min-width: 300px;
+    position: relative;
+    padding: 1.5rem;
+    padding-bottom: 80px;
+    opacity: 0.6;
+    transform: scale(0.9);
+    transition: all 0.5s ease;
+    background: linear-gradient(135deg, #2a2a3a 0%, #3a3a4a 100%);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.path-card.active {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);  /* More subtle background */
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.7);  /* Softer text color */
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);  /* Frosted glass effect */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-button.prev {
+    left: 0;
+}
+
+.carousel-button.next {
+    right: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .carousel-track {
+        grid-template-columns: repeat(2, 1fr); /* Show 2 cards on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-track {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 1rem;
+    }
+    
+    .carousel-button {
+        display: none; /* Hide arrows on mobile */
+    }
+    
+    .carousel-container {
+        padding: 0 20px;
+    }
+    
+    .path-card {
+        min-height: auto;
+    }
+}
+
+/* Projects Card Specific Styles */
+.projects-card {
+    border: 2px solid #9c27b0;
+}
+
+.projects-card .path-icon {
+    color: #9c27b0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .carousel-track {
+        gap: 1rem;
+    }
+    
+    .path-card {
+        flex: 0 0 calc(100% - 2rem);
+    }
+}
+
+// ...existing code...
+
+/* Update carousel styles */
+.carousel-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.path-card {
+    flex: 0 0 calc(33.333% - 2rem);
+    position: relative;
+    padding-bottom: 60px; /* Space for button */
+}
+
+/* Card action buttons */
+.card-action {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: auto;
+    transform: none;
+}
+
+.button.start-button {
+    margin: 0 auto;
+    width: auto;
+    min-width: 160px;
+}
+
+/* Move reset journey button */
+.reset-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Update responsive styles */
+@media (max-width: 768px) {
+    .path-card {
+        flex: 0 0 calc(100% - 2rem);
+        padding-bottom: 80px;
+    }
+}
+
+// ...existing code...
+
+/* Update card and button styles */
+.path-card {
+    /* ...existing code... */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 400px; /* Set a minimum height */
+}
+
+.card-action {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: auto;
+    transform: none;
+}
+
+.button.start-button {
+    margin: 0 auto;
+    width: auto;
+    min-width: 160px;
+}
+
+/* Blog Card Specific Styles */
+.blog-card {
+    border: 2px solid #1DB954;
+}
+
+.blog-card .path-icon {
+    color: #1DB954;
+}
+
+.blog-card ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 0.5rem 0;
+}
+
+.blog-card ul li a:hover {
+    color: #1DB954;
+}
+
+.button.blog {
+    background: #1DB954;
+}
+
+.button.blog:hover {
+    background: #169c46;
+}
+
+/* Portfolio Card Specific Styles */
+.portfolio-card {
+    border: 2px solid #ff6b6b;
+}
+
+.portfolio-card .path-icon {
+    color: #ff6b6b;
+}
+
+.portfolio-card ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 0.5rem 0;
+}
+
+.portfolio-card ul li a:hover {
+    color: #ff6b6b;
+}
+
+.button.portfolio {
+    background: #ff6b6b;
+}
+
+.button.portfolio:hover {
+    background: #ff5252;
+}
+
+/* ...existing code... */
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+    margin: 15% auto; /* Increased from 10% to push it higher */
+    padding: 25px; /* Reduced padding */
+    border: 2px solid #00d4ff;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 320px; /* Reduced from 400px */
+    position: relative;
+    text-align: center;
+    color: white;
+    animation: bounceInBig 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+}
+
+.modal-content .profile-photo {
+    width: 80px; /* Reduced from 100px */
+    height: 80px; /* Reduced from 100px */
+    margin-bottom: 1rem;
+    border: 2px solid #00d4ff;
+    border-radius: 50%; /* Make image circular */
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    object-fit: cover; /* Ensure image fills circle without distortion */
+}
+
+.modal-content h2 {
+    font-family: 'Playfair Display', serif; /* More fancy font */
+    font-size: 1.5em; /* Reduced from 1.8em */
+    margin: 0.8rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content .bio-section {
+    font-family: 'Crimson Text', serif; /* Elegant font for bio */
+    font-size: 1em; /* Reduced from 1.1em */
+    margin: 0.8rem 0;
+    line-height: 1.5;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #00d4ff;
+}
+    top: 20px; /* Changed from bottom to top */
+    right: 20px;
+    background: rgba(33, 150, 243, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.about-me-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+}
+
+/* Animations */
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Add new bouncy animation */
+@keyframes bounceInBig {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); }
+    70% { transform: scale(0.9); }
+    85% { transform: scale(1.03); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ...existing code... */

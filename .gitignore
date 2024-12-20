@@ -7,4 +7,6 @@ terraform.tfstate.backup
 mariamhostspace.pub
 bible
 mariamhostspace.pem
-readme.md
+*.pem
+*/*.pem
+iam_user_policy.tf

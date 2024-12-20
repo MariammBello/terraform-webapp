@@ -14,16 +14,16 @@ provider "aws" {
   region = "us-east-1"
 }
 
-// S3 bucket with fixed name and versioning
+// S3 bucket creation
 resource "aws_s3_bucket" "static_files" {
-  bucket        = "mariam-altschool-static-2024"  // Fixed name
+  bucket        = "mariam-altschool-static-2024"
   force_destroy = true
 
   lifecycle {
     prevent_destroy = false
     ignore_changes = [
       tags,
-      versioning  // Fixed attribute name
+      versioning 
     ]
   }
 
@@ -41,17 +41,7 @@ resource "aws_s3_bucket_versioning" "static_files" {
   }
 }
 
-// Make bucket private
-resource "aws_s3_bucket_public_access_block" "static_files" {
-  bucket = aws_s3_bucket.static_files.id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-}
-
-// Add lifecycle configuration
+// Add lifecycle configuration duration
 resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle" {
   bucket = aws_s3_bucket.static_files.id
 
@@ -64,6 +54,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle" {
     }
   }
 }
+
+// Make bucket private
+resource "aws_s3_bucket_public_access_block" "static_files" {
+  bucket = aws_s3_bucket.static_files.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 
 resource "aws_s3_object" "html_file" {
   bucket = aws_s3_bucket.static_files.id
@@ -89,7 +90,6 @@ resource "aws_s3_object" "js_file" {
   etag = filemd5("script.js")
 }
 
-// First: When uploading the config to S3
 resource "aws_s3_object" "nginx_config" {
   bucket = aws_s3_bucket.static_files.id
   key    = "default.conf"
@@ -213,8 +213,8 @@ resource "aws_instance" "web_server" {
     aws_s3_object.nginx_config
   ]
   
-  ami           = "ami-0e2c8caa4b6378d8c"  // Updated AMI
-  instance_type = "t2.micro"               // Changed from t3.micro
+  ami           = "ami-0e2c8caa4b6378d8c"  
+  instance_type = "t2.micro"               
   key_name      = aws_key_pair.deployer.key_name  // Reference the created key pair
   vpc_security_group_ids = [aws_security_group.web_sg.id]  // Direct reference
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.name  // Direct reference
@@ -243,7 +243,7 @@ resource "aws_eip" "web_eip" {
   domain   = "vpc"
 }
 
-// Second: In the ssh_resource that runs commands on the EC2 instance
+// ssh_resource that runs subsequent commands on the EC2 instance after its been provisioned
 resource "ssh_resource" "web_init" {
   depends_on = [aws_instance.web_server]
   
@@ -285,6 +285,12 @@ resource "ssh_resource" "web_init" {
   }
 }
 
+variable "domain_name" {
+  description = "Domain name for SSL certificate"
+  type        = string
+  default     = "cloud.3figirl.com"  # Will use public IP if no domain provided
+}
+
 // Outputs
 output "public_ip" {
   value = aws_eip.web_eip.public_ip
@@ -301,8 +307,4 @@ output "ssl_domain" {
   description = "Domain name or IP used for SSL certificate"
 }
 
-variable "domain_name" {
-  description = "Domain name for SSL certificate"
-  type        = string
-  default     = "cloud.3figirl.com"  # Will use public IP if no domain provided
-}
+

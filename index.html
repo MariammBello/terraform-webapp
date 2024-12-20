@@ -3,95 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Cloud Infrastructure Adventure</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Update burger menu button -->
-    <button class="menu-toggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars" id="menuIcon"></i>
-    </button>
-
-    <!-- Update sidebar to have collapsed class by default -->
-    <div class="sidebar collapsed" id="introSidebar">
-        <div class="sidebar-content">
+    <!-- About Me Modal -->
+    <div id="aboutMeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
             <img src="https://avatars.githubusercontent.com/u/129985082?v=4" alt="Profile Photo" class="profile-photo">
-            <h1>Mariam Bello</h1>
+            <h2>Mariam Bello</h2>
             <div class="bio-section">
-                <h3><i class="fas fa-user"></i> About Me</h3>
                 <p>Cloud Engineer and passionate educator, dedicated to making complex infrastructure concepts accessible to everyone.</p>
-                
-                <h3><i class="fas fa-graduation-cap"></i> Project Description</h3>
-                <p>An interactive guide to deploying web applications on AWS, designed to teach both beginners and advanced users through a gamified experience.  I created this interactive tutorial to help others master cloud infrastructure deployment. My approach combines practical experience with engaging teaching methods.</p>
             </div>
             <div class="social-links">
-                <h3><i class="fas fa-share-alt"></i> Connect With Me</h3>
                 <div class="social-icons">
-                    <a href="https://github.com/yourusername" target="_blank" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/yourusername" target="_blank" title="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="https://twitter.com/yourusername" target="_blank" title="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="mailto:your.email@example.com" title="Email">
-                        <i class="fas fa-envelope"></i>
-                    </a>
+                    <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
-            <button class="button start-tutorial" onclick="startTutorial()">
-                <i class="fas fa-rocket"></i> Start Learning
+            <button class="button start-tutorial" onclick="window.location.reload()">
+                <i class="fas fa-rocket"></i> Get Started
             </button>
         </div>
     </div>
 
-    <!-- Remove sidebar-expanded class from container -->
+    <!-- About Me Button -->
+    <button id="aboutMeBtn" class="about-me-btn">
+        <i class="fas fa-user"></i> About Me
+    </button>
+
     <div class="container">
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
-        <h1><i class="fas fa-cloud"></i> Welcome to My Altschool Cloud Project</h1>
+        <h1><i class="fas fa-cloud"></i> Welcome to Mariam´s Landing page</h1>
 
-        <h2>Choose your adventure path</h2>
+        <h2>Project Description</h2>
+        <p>This project is created as my submission for my second semester assessmenta at Altschool Cloud Engineering track 2024. It is an interactive guide to deploying web applications on AWS, designed to teach both beginners and advanced users through a gamified experience. I created this interactive tutorial to help others master cloud infrastructure deployment. My approach combines practical experience with engaging teaching methods.</p>
         
-        <!-- Path description cards -->
-        <div class="path-cards">
-            <div class="path-card beginner-card">
-                <i class="fas fa-baby path-icon"></i>
-                <h3>Beginner's Path</h3>
-                <p>Perfect for those new to cloud deployment. Learn how to:</p>
-                <ul>
-                    <li>Manually provision AWS EC2 instances</li>
-                    <li>Set up a web server step by step</li>
-                    <li>Deploy and verify your application</li>
-                </ul>
-            </div>
-            <div class="path-card advanced-card">
-                <i class="fas fa-terminal path-icon"></i>
-                <h3>Advanced Path</h3>
-                <p>For those ready to level up their deployment game. Learn:</p>
-                <ul>
-                    <li>Automation with bash scripting</li>
-                    <li>Infrastructure as Code with Terraform</li>
-                    <li>Setting up S3 to serve frontend content</li>
-                    <li>Automated deployment processes</li>
-                    <li>SSL certificate generation</li>
-                    <li>Custom domain configuration</li>
-                </ul>
-            </div>
+        <!-- Add search bar -->
+        <div class="search-container">
+            <input type="text" id="projectSearch" placeholder="Search projects...">
+            <i class="fas fa-search search-icon"></i>
         </div>
 
-        <!-- Path buttons -->
-        <div class="path-buttons">
-            <button class="button start-button beginner" onclick="revealStep(6)">
-                <i class="fas fa-baby"></i> Beginner's Path
+        <!-- Replace path-cards div with carousel structure -->
+        <div class="carousel-container">
+            <button class="carousel-button prev">
+                <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="button start-button advanced" onclick="revealStep(1)">
-                <i class="fas fa-terminal"></i> Advanced Path (Terraform)
+            <div class="carousel-track">
+                <div class="path-card beginner-card">
+                    <i class="fas fa-baby path-icon"></i>
+                    <h3>Beginner's Path</h3>
+                    <p>Perfect for those new to cloud deployment. Learn how to:</p>
+                    <ul>
+                        <li>Manually provision AWS EC2 instances</li>
+                        <li>Set up a web server step by step</li>
+                        <li>Deploy and verify your application</li>
+                    </ul>
+                    <div class="card-action">
+                        <button class="button start-button beginner" onclick="revealStep(6)">
+                            <i class="fas fa-baby"></i> Start Beginner Path
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="path-card advanced-card">
+                    <i class="fas fa-terminal path-icon"></i>
+                    <h3>Advanced Path</h3>
+                    <p>For those ready to level up their deployment game. Learn:</p>
+                    <ul>
+                        <li>Automation with bash scripting</li>
+                        <li>Infrastructure as Code with Terraform</li>
+                        <li>Setting up S3 to serve frontend content</li>
+                        <li>Automated deployment processes</li>
+                        <li>SSL certificate generation</li>
+                        <li>Custom domain configuration</li>
+                    </ul>
+                    <div class="card-action">
+                        <button class="button start-button advanced" onclick="revealStep(1)">
+                            <i class="fas fa-terminal"></i> Start Advanced Path
+                        </button>
+                    </div>
+                </div>
+
+                <div class="path-card portfolio-card">
+                    <i class="fas fa-briefcase path-icon"></i>
+                    <h3>Portfolio Projects</h3>
+                    <p>Explore my cloud and DevOps projects</p>
+                    <ul>
+                        <li>
+                            <a href="https://medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
+                                Cloud Resume Challenge - Open Source Implementation
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/@mariammbello/behind-the-scenes-of-deploying-an-azure-function-app-a-beginner-adaptation-to-ui-changes-and-022238aa9e77" target="_blank">
+                                Cloud Resume Challenge - Azure Implementation
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https:fixlink//medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
+                                Cloud Resume Challenge - AWS Implementation
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https:fixlink//medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
+                                Cloud Resume Challenge - GCP Implementation
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="card-action">
+                        <a href="https://github.com/MariammBello" target="_blank" class="button start-button portfolio">
+                            <i class="fab fa-github"></i> View All Projects
+                        </a>
+                    </div>
+                </div>
+
+                <div class="path-card blog-card">
+                    <i class="fas fa-blog path-icon"></i>
+                    <h3>Blog Posts</h3>
+                    <p>Explore my technical writing and tutorials</p>
+                    <ul>
+                        <li>
+                            <a href="https://medium.com/@mariammbello/ansible-a-beginners-guide-for-automation-cd779aedaa44" target="_blank">
+                                An Ansible Beginner's Guide for Automation
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/@mariammbello/terraform-beginner-cheat-sheet-understanding-the-basics-and-structure-881a496d6211" target="_blank">
+                                Terraform Beginner Cheat Sheet
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/@mariammbello/user-and-group-management-in-linux-a-beginners-guide-5dd77e8b2d35" target="_blank">
+                                User and Group Management in Linux: A Beginner's Guide
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/@mariammbello/devops-and-its-sooooo-many-tools-e33a65659bd5" target="_blank">
+                                DevOps and its sooooo many tools
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="card-action">
+                        <a href="https://medium.com/@mariammbello" target="_blank" class="button start-button blog">
+                            <i class="fab fa-medium"></i> Visit Blog
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-button next">
+                <i class="fas fa-chevron-right"></i>
             </button>
+        </div>
+
+        <!-- Move reset button outside carousel -->
+        <div class="reset-container">
             <button class="button reset-button" onclick="window.location.reload()">
                 <i class="fas fa-redo"></i> Reset Journey
             </button>
@@ -102,71 +178,77 @@
             <div id="step1" class="hidden step">
                 <div class="step-header">
                     <span class="step-number">01</span>
-                    <h2><i class="fas fa-server"></i> Infrastructure Code Setup with Bash, Terraform and AWS S3</h2>
+                    <h2><i class="fas fa-server"></i> Initialize Terraform Project</h2>
                 </div>
-                <p>Get started with the infrastructure code:</p>
                 <div class="setup-container full-width">
                     <h3><i class="fas fa-list-check"></i> Prerequisites</h3>
                     <div class="setup-steps">
-                        <ol>
+                        <ul>
+                            <li>AWS Account: Required to create resources (EC2, S3, IAM, etc)</li>
                             <li>Ensure Terraform is installed: 
                                 <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli" target="_blank">
                                     <i class="fas fa-download"></i> Install Terraform
                                 </a>
                             </li>
-                            <li>Purchase a domain name: 
-                                <a href="https://domains.google.com" target="_blank">
-                                    <i class="fas fa-globe"></i> Google Domains
-                                </a> or
-                                <a href="https://www.namecheap.com" target="_blank">
-                                    <i class="fas fa-globe"></i> Namecheap
-                                </a>
-                            </li>
+                            <li>IAM User with Terraform Permissions: A single IAM user policy grants permissions to manage EC2, S3, and IAM resources.</li>
+                            <li>AWS CLI Configuration: Ensuring the IAM user's access and secret keys created above are configured locally to authenticate Terraform commands.</li>
+                            <li>SSH Key Pair: Create a key pair to SSH into the EC2 instance. Use ssh-keygen to generate the keys: ssh-keygen -t rsa -b 2048 -f {replace with name of key}</li>
                             <li>Clone the repository: 
-                                <a href="https://github.com/yourusername/terraform-web-deploy" target="_blank">
+                                <a href="https://github.com/MariammBello/terraform-webapp" target="_blank">
                                     <i class="fab fa-github"></i> Terraform Web Deployment
                                 </a>
                             </li>
-                            <li>Ensure you update frontend files (index.html, style.css, script.js) to preference in the same directory</li>
-                        </ol>
+                            <li>Take a good shot at reading the readme.md documentation in the repo: 
+                                <a href="https://github.com/MariammBello/terraform-webapp//blob/main/README.md" target="_blank">
+                                    <i class="fab fa-github"></i> Terraform Web Deployment
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-
+                    <div class="note">
+                        <p><i class="fas fa-info-circle"></i> Once all the requirements are made, and you decide to clone this repo, replace the index.html, style.css and script.js to your preffered files.</p>
+                    </div>
                 </div>
-                <button class="button next-button" onclick="revealStep(2)">Deployment Steps <i class="fas fa-arrow-right"></i></button>
+                <button class="button next-button" onclick="revealStep(2)">Continue to IP Setup <i class="fas fa-arrow-right"></i></button>
             </div>
 
             <div id="step2" class="hidden step">
                 <div class="step-header">
                     <span class="step-number">02</span>
-                    <h2><i class="fas fa-network-wired"></i> IP & Domain Setup</h2>
+                    <h2><i class="fas fa-network-wired"></i> IP & Domain Configuration (Optional)</h2>
                 </div>
-                <p>Set up your static IP and configure your domain:</p>
                 <div class="deployment-steps">
-                    <h3>Domain Configuration Process</h3>
+                    <h3>1. Deploy Elastic IP</h3>
+                    <p>This deploys a static domain that remains constant for your domain</p>
                     <div class="code-snippet">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre>
-# Step 1: Create and get Elastic IP
-terraform init
-terraform apply -target=aws_eip.web_eip
-terraform output public_ip
-
-# Step 2: Configure Domain DNS
-# Go to your domain provider and add an A record:
-# Type: A
-# Name: @ (or subdomain)
-# Value: [Your Elastic IP from above]
-# TTL: 3600 (or as preferred)</pre>
+                        <pre>terraform apply -target=aws_eip.web_eip</pre>
                     </div>
-                    <div class="deployment-explanation">
-                        <p><strong>What's happening?</strong></p>
+                    
+                    <h3>2. Get Public IP</h3>
+                    <p>This outputs the Elastic IP that will be linked to your DNS record if you own one </p>
+                    <div class="code-snippet">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre>terraform output public_ip</pre>
+                    </div>
+                    
+                    <h3>3. DNS Configuration (Optional)</h3>
+                    <div class="setup-steps">
+                        <p><strong>Follow these steps in your domain registrar:</strong></p>
                         <ol>
-                            <li>Creating a static IP that will remain constant for your domain</li>
-                            <li>Linking your domain name to this IP address</li>
+                            <li>Log in to your domain provider's DNS settings</li>
+                            <li>Create a new A record:
+                                <ul>
+                                    <li><code>Type:</code> A</li>
+                                    <li><code>Name:</code> @ (or www for subdomain)</li>
+                                    <li><code>Value:</code> [Elastic IP from output]</li>
+                                    <li><code>TTL:</code> 3600 seconds (recommended)</li>
+                                </ul>
+                            </li>
                         </ol>
-                        <div class="note">
-                            <p><i class="fas fa-info-circle"></i> Wait for DNS propagation (usually 15-30 minutes) before proceeding to the next step.</p>
-                        </div>
+                    </div>
+                    <div class="note">
+                        <i class="fas fa-clock"></i> Allow 15-30 minutes for DNS propagation before proceeding.
                     </div>
                 </div>
                 <button class="button next-button" onclick="revealStep(3)">Continue to Deployment <i class="fas fa-arrow-right"></i></button>
@@ -177,27 +259,46 @@ terraform output public_ip
                     <span class="step-number">03</span>
                     <h2><i class="fas fa-rocket"></i> Deploy Full Infrastructure</h2>
                 </div>
-                <p>Deploy your complete infrastructure with SSL:</p>
                 <div class="deployment-steps">
+
+                    <h3>Project Initialisation</h3>
+                    <p>This command initializes Terraform, sets up the required backend, and downloads necessary provider plugins.</p>
                     <div class="code-snippet">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre>
-# Deploy the full infrastructure
-terraform apply</pre>
+                        <pre>terraform init"</pre>
                     </div>
+
+                    <h3>Option 1: With Custom Domain</h3>
+                    <div class="code-snippet">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre>terraform apply -var="domain_name=example.com"</pre>
+                    </div>
+                    
+                    <h3>Option 2: Without Custom Domain</h3>
+                    <div class="code-snippet">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre>terraform apply</pre>
+                    </div>
+                    
                     <div class="deployment-explanation">
-                        <p><strong>This command will:</strong></p>
+                        <h3><i class="fas fa-info-circle"></i> The Deployment steps implements the following:</h3>
                         <ul>
-                            <li>Create and configure the EC2 instance with Ubuntu as the base image</li>
-                            <li>Set up security groups to configure security rules for allowing web and SSH traffic</li>
-                            <li>Install and configure Nginx automatically</li>
-                            <li>Deploy your website files to the Nginx webserver</li>
-                            <li>Configure SSL certificates automatically</li>
-                            <li><strong>Start the web service</strong> automatically</li>
+                            <li>Creates and configures the EC2 instance with Ubuntu as the base image</li>
+                            <li>Sets up security groups to configure security rules for allowing web and ssh traffic</li>
+                            <li>Installs and configures Nginx web server</li>
+                            <li>Configures SSL certificates automatically</li>
+                            <li>Deploys your website files and saves them on an S3 bucket storage</li>
+                            <li>Starts up the web service automatically</li>
                         </ul>
                     </div>
                 </div>
-                <button class="button next-button" onclick="revealStep(4)">Next Step <i class="fas fa-arrow-right"></i></button>
+                <div class="note">
+                    <i class="fas fa-info-circle"></i> 
+                    Please note that applying Terraform should be done using best practices, e.g., "Terraform plan" is necessary to run to evaluate what the actual implementation will do. 
+                    See my <a href="https://medium.com/@mariammbello/terraform-beginner-cheat-sheet-understanding-the-basics-and-structure-881a496d6211" target="_blank" style="color: #f7d716; text-decoration: none; font-weight: bold;" onmouseover="this.style.textDecoration='underline'; this.style.color='#ffcc33';" onmouseout="this.style.textDecoration='none'; this.style.color='#f7d716';">Terraform blog</a> on getting started with Terraform.
+                </div>
+                
+                <button class="button next-button" onclick="revealStep(4)">Verify Deployment <i class="fas fa-arrow-right"></i></button>
             </div>
 
             <div id="step4" class="hidden step">
@@ -212,12 +313,22 @@ terraform apply</pre>
                         <span>Infrastructure as Code Master Achievement Unlocked!</span>
                     </div>
                     <div class="note">
-                        <p><i class="fas fa-info-circle"></i> Your website should now be accessible at: <code>https://your-domain.com</code></p>
+                        <p><i class="fas fa-info-circle"></i> Your deployment outputs:</p>
+                        <ul>
+                            <li><strong>Website/IP URL:</strong> <code>https://your-domain.com</code></li>
+                            <li><strong>Bucket Name:</strong> <code>your-s3-bucket</code></li>
+                            <li><strong>SSL Status:</strong> <i class="fas fa-lock"></i> Secure</li>
+                        </ul>
                     </div>
                 </div>
-                <button class="button restart-button" onclick="window.location.reload()">
-                    <i class="fas fa-redo"></i> Start Over
-                </button>
+                <div class="button-group">
+                    <button class="button restart-button" onclick="window.location.reload()">
+                        <i class="fas fa-redo"></i> Start Over
+                    </button>
+                    <button class="button advanced-button" onclick="window.location.href='https://github.com/MariammBello/terraform-webapp'">
+                        <i class="fab fa-github"></i> View Source Code
+                    </button>
+                </div>
             </div>
         </div>
 

@@ -1,17 +1,43 @@
-// Update toggleSidebar function
-function toggleSidebar() {
-    const sidebar = document.getElementById('introSidebar');
-    const container = document.querySelector('.container');
-    const menuIcon = document.getElementById('menuIcon');
-    
-    sidebar.classList.toggle('collapsed');
-    container.classList.toggle('sidebar-expanded');
-}
+// Modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('aboutMeModal');
+    const btn = document.getElementById('aboutMeBtn');
+    const span = document.getElementsByClassName('close')[0];
+    const startButton = document.querySelector('.modal-content .button');
 
-function startTutorial() {
-    document.getElementById('introSidebar').classList.add('collapsed');
-    document.querySelector('.container').classList.remove('sidebar-expanded');
-}
+    // Show modal automatically on page load
+    setTimeout(() => {
+        modal.style.display = "block";
+    }, 1000);
+
+    // Button click opens modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // Close button closes modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Get Started button closes modal
+    startButton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Click outside modal closes it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    
+    // Remove sidebar-related functionality
+    // ...rest of existing code...
+});
+
+// Remove toggleSidebar and startTutorial functions
+// ...rest of existing code...
 
 function scrollToStep(stepElement) {
     const offset = 50; // Offset from the top of the viewport
@@ -87,4 +113,103 @@ async function loadTerraformConfig() {
 // Call this when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     loadTerraformConfig();
+    
+    // Add sidebar-expanded class to container on page load
+    document.querySelector('.container').classList.add('sidebar-expanded');
+    
+    // Add new carousel functionality
+    let currentIndex = 0;
+    const track = document.querySelector('.carousel-track');
+    const cards = document.querySelectorAll('.path-card');
+    const cardWidth = cards[0].offsetWidth + 32; // Include gap
+
+    // Update carousel functionality
+    function updateCarousel() {
+        const containerWidth = document.querySelector('.carousel-container').offsetWidth;
+        const cardWidth = cards[0].offsetWidth + 32; // Include gap
+        const offset = (containerWidth / 2) - (cardWidth / 2);
+        const newTransform = -currentIndex * cardWidth + offset;
+        
+        track.style.transform = `translateX(${newTransform}px)`;
+        
+        // Update active states
+        cards.forEach((card, index) => {
+            const isActive = index === currentIndex;
+            card.classList.toggle('active', isActive);
+            
+            // Optional: Also add a "near-active" class for cards adjacent to the active one
+            const isNearActive = Math.abs(index - currentIndex) === 1;
+            card.classList.toggle('near-active', isNearActive);
+        });
+    }
+
+    // Add automatic rotation if desired
+    let autoplayInterval;
+
+    function startAutoplay() {
+        autoplayInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateCarousel();
+        }, 5000); // Change slides every 5 seconds
+    }
+
+    function stopAutoplay() {
+        clearInterval(autoplayInterval);
+    }
+
+    // Start autoplay and handle mouse interactions
+    startAutoplay();
+
+    track.addEventListener('mouseenter', stopAutoplay);
+    track.addEventListener('mouseleave', startAutoplay);
+
+    document.querySelector('.next').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateCarousel();
+    });
+
+    document.querySelector('.prev').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateCarousel();
+    });
+
+    // Add window resize handler
+    window.addEventListener('resize', () => {
+        updateCarousel();
+    });
+
+    // Add search functionality
+    const searchInput = document.getElementById('projectSearch');
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            const shouldShow = text.includes(searchTerm);
+            card.style.display = shouldShow ? 'block' : 'none';
+        });
+    });
+
+    // Initialize carousel
+    updateCarousel();
+
+    // Add touch support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    track.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) {
+            // Swipe left
+            currentIndex = Math.min(currentIndex + 1, cards.length - 1);
+            updateCarousel();
+        } else if (touchEndX - touchStartX > 50) {
+            // Swipe right
+            currentIndex = Math.max(currentIndex - 1, 0);
+            updateCarousel();
+        }
+    });
 });
