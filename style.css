@@ -1,15 +1,15 @@
-/* Remove sidebar-related styles */
-/* Remove .sidebar, .menu-toggle, and related styles */
+/* Remove all sidebar-related styles and comments */
 
-/* Update container styles to remove sidebar-related margins */
+/* Update container styles for full page */
 .container {
     margin: 0;
     padding: 20px;
     width: 100%;
-    max-width: 100%;
-    min-height: 100vh;
     box-sizing: border-box;
+    text-align: center;
 }
+
+/* Remove sidebar-expanded and sidebar-collapsed classes */
 
 /* Update modal styles */
 .modal-content {
@@ -51,110 +51,10 @@
     line-height: 1.5;
 }
 
-/* Update menu toggle styles */
-/* Remove .menu-toggle styles */
-
-/* Add icon rotation for collapsed state */
-/* Remove .sidebar.collapsed + .container .menu-toggle i styles */
-
-/* Update sidebar position styles */
-/* Remove .sidebar styles */
-
-/* Remove .sidebar.collapsed styles */
-
-/* Remove .sidebar.collapsed ~ .container .menu-toggle styles */
-
-/* Remove .sidebar-content styles */
-
-/* Remove .profile-photo styles */
-
-/* Remove .sidebar h1 styles */
-
-/* Remove .sidebar h2 styles */
-
-/* Remove .bio-section styles */
-
-/* Remove .bio-section h3 styles */
-
-/* Remove .bio-section p styles */
-
-/* Remove .skills-list styles */
-
-/* Remove .skills-list li styles */
-
-/* Remove .start-tutorial styles */
-
-/* Add before .start-tutorial styles */
-.social-links {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.social-links h3 {
-    font-size: 1em;
-    color: #00d4ff;
-    margin-bottom: 1rem;
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.social-icons a {
-    color: #fff;
-    font-size: 1.5em;
-    padding: 0.5rem;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.social-icons a:hover {
-    color: #00d4ff;
-    background: rgba(0, 212, 255, 0.1);
-    transform: translateY(-3px);
-}
-
-/* Update container styles */
-.container {
-    margin: 0;
-    padding: 20px;
-    width: 100%;
-    max-width: 100%;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
-
-.container.sidebar-expanded {
-    margin-left: 10px;
-}
-
-.container.sidebar-collapsed {
-    margin-left: 0;
-}
-
-/* Add responsive handling */
+/* Update responsive styles */
 @media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        transform: translateX(-100%);
-    }
-    
     .container {
-        margin-left: 0;
-    }
-
-    .container.sidebar-expanded {
-        margin-left: 0;
-        opacity: 0.7;
+        padding: 10px;
     }
 }
 
@@ -177,7 +77,6 @@ body {
 .container {
     text-align: center;
     padding: 20px;
-    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -306,8 +205,6 @@ p {
     margin: 1rem auto;
     position: relative;
     max-height: 400px;
-    max-width: 85%;
-    width: 500px; /* Reduced from 600px */
     overflow: auto;
     box-sizing: border-box;
 }
@@ -372,7 +269,6 @@ p {
 .setup-steps {
     text-align: left;
     margin: 2rem auto;
-    max-width: 600px;
     background: #2a2a3a;
     padding: 2rem;
     border-radius: 10px;
@@ -437,7 +333,7 @@ p {
 
 .setup-container {
     flex: 1;
-    max-width: 500px;
+    margin: 0 auto;
 }
 
 .setup-container.full-width {
@@ -447,13 +343,12 @@ p {
 
 .setup-container.full-width .setup-steps,
 .setup-container.full-width .terraform-explanation {
-    max-width: 800px;
     margin: 2rem auto;
 }
 
 .media-container {
     flex: 1;
-    max-width: 500px;
+    margin: 0 auto;
 }
 
 .media-container video {
@@ -477,14 +372,12 @@ p {
     padding: 1rem;
     margin: 1rem auto; /* Added auto for horizontal centering */
     background: rgba(42, 42, 58, 0.5);
-    max-width: 85%;
-    width: 600px; /* Added fixed width */
+    width: 100%;
 }
 
 .deployment-steps .code-snippet {
     max-height: 150px;  /* Reduce code snippet height */
-    max-width: 95%;
-    width: 450px; /* Reduced from 500px */
+    width: 100%;
 }
 
 .deployment-steps::-webkit-scrollbar {
@@ -559,7 +452,7 @@ p {
     
     .setup-container,
     .media-container {
-        max-width: 100%;
+        width: 100%;
     }
 }
 
@@ -679,7 +572,7 @@ p {
     
     .path-card {
         width: 100%;
-        max-width: 100%;
+        margin: 0;
     }
 }
 
@@ -796,14 +689,12 @@ p {
 
     .code-snippet {
         font-size: 0.85em;
-        max-width: 95%;
-        width: auto;
+        width: 100%;
         padding: 0.8rem;
     }
 
     .deployment-steps .code-snippet {
-        max-width: 100%;
-        width: auto;
+        width: 100%;
     }
 
     .deployment-steps {
@@ -855,7 +746,6 @@ p {
 /* Search Container */
 .search-container {
     position: relative;
-    max-width: 600px;
     margin: 2rem auto;
 }
 
@@ -1156,7 +1046,7 @@ body {
 }
 
 .container {
-    width: min(95%, 1200px);
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     overflow-x: hidden;
@@ -1165,13 +1055,15 @@ body {
 
 /* Center welcome content */
 .welcome-section {
-    max-width: 800px;
+    width: 100%;
     margin: 0 auto 2rem;
     text-align: center;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 h1, h2, p {
-    max-width: 800px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -1179,9 +1071,11 @@ h1, h2, p {
 
 /* Update carousel container */
 .carousel-container {
-    width: 100%;
-    max-width: 1000px;
-    margin: 2rem auto;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 1rem 0;
     padding: 0;
     position: relative;
     box-sizing: border-box;
@@ -1193,27 +1087,23 @@ h1, h2, p {
 .deployment-steps, 
 .step-content,
 .code-block {
-    max-width: 800px;
-    width: 90%;
+    width: 100%;
     margin: 1rem auto;
 }
 
 .welcome-section {
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
 .search-container {
-    max-width: 600px;
     margin: 2rem auto;
 }
 
 /* Make welcome section responsive */
 .welcome-section {
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -1260,7 +1150,6 @@ h1, h2, p {
 /* Make path containers responsive */
 .path-container {
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
