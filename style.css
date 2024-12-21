@@ -548,6 +548,8 @@ p {
     flex-direction: column;
     position: relative;
     min-height: 400px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .path-card .card-content {
@@ -674,6 +676,30 @@ p {
 
 .button.advanced-button:hover {
     background: #1976D2;
+}
+
+.button.start-button {
+    width: auto;
+    max-width: calc(100% - 40px);
+    margin: 1rem auto;
+    padding: 12px 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+    .button.start-button {
+        padding: 10px 16px;
+        font-size: 0.9em;
+        max-width: calc(100% - 20px);
+    }
+    
+    .path-card {
+        padding: 1rem;
+        margin: 0 5px;
+    }
 }
 
 /* Mobile Responsiveness Improvements */
