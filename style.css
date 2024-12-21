@@ -544,6 +544,20 @@ p {
     padding: 1.5rem;
     box-sizing: border-box;
     margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 400px;
+}
+
+.path-card .card-content {
+    flex: 1;
+    margin-bottom: 1rem;
+}
+
+.path-card .card-action {
+    margin-top: auto;
+    padding-top: 1rem;
 }
 
 .path-card:hover {
@@ -825,6 +839,10 @@ p {
     padding: 1.5rem;
     box-sizing: border-box;
     margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 400px;
 }
 
 .carousel-button {
@@ -1157,6 +1175,20 @@ h1, h2, p {
     padding: 1.5rem;
     box-sizing: border-box;
     margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 400px;
+}
+
+.path-card .card-content {
+    flex: 1;
+    margin-bottom: 1rem;
+}
+
+.path-card .card-action {
+    margin-top: auto;
+    padding-top: 1rem;
 }
 
 /* Responsive adjustments */

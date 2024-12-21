@@ -63,14 +63,16 @@
             </button>
             <div class="carousel-track">
                 <div class="path-card beginner-card">
-                    <i class="fas fa-baby path-icon"></i>
-                    <h3>Beginner's Path</h3>
-                    <p>Perfect for those new to cloud deployment. Learn how to:</p>
-                    <ul>
-                        <li>Manually provision AWS EC2 instances</li>
-                        <li>Set up a web server step by step</li>
-                        <li>Deploy and verify your application</li>
-                    </ul>
+                    <div class="card-content">
+                        <i class="fas fa-baby path-icon"></i>
+                        <h3>Beginner's Path</h3>
+                        <p>Perfect for those new to cloud deployment. Learn how to:</p>
+                        <ul>
+                            <li>Manually provision AWS EC2 instances</li>
+                            <li>Set up a web server step by step</li>
+                            <li>Deploy and verify your application</li>
+                        </ul>
+                    </div>
                     <div class="card-action">
                         <button class="button start-button beginner" onclick="revealStep(6)">
                             <i class="fas fa-baby"></i> Start Beginner Path
@@ -79,17 +81,19 @@
                 </div>
                 
                 <div class="path-card advanced-card">
-                    <i class="fas fa-terminal path-icon"></i>
-                    <h3>Advanced Path</h3>
-                    <p>For those ready to level up their deployment game. Learn:</p>
-                    <ul>
-                        <li>Automation with bash scripting</li>
-                        <li>Infrastructure as Code with Terraform</li>
-                        <li>Setting up S3 to serve frontend content</li>
-                        <li>Automated deployment processes</li>
-                        <li>SSL certificate generation</li>
-                        <li>Custom domain configuration</li>
-                    </ul>
+                    <div class="card-content">
+                        <i class="fas fa-terminal path-icon"></i>
+                        <h3>Advanced Path</h3>
+                        <p>For those ready to level up their deployment game. Learn:</p>
+                        <ul>
+                            <li>Automation with bash scripting</li>
+                            <li>Infrastructure as Code with Terraform</li>
+                            <li>Setting up S3 to serve frontend content</li>
+                            <li>Automated deployment processes</li>
+                            <li>SSL certificate generation</li>
+                            <li>Custom domain configuration</li>
+                        </ul>
+                    </div>
                     <div class="card-action">
                         <button class="button start-button advanced" onclick="revealStep(1)">
                             <i class="fas fa-terminal"></i> Start Advanced Path
@@ -98,31 +102,33 @@
                 </div>
 
                 <div class="path-card portfolio-card">
-                    <i class="fas fa-briefcase path-icon"></i>
-                    <h3>Portfolio Projects</h3>
-                    <p>Explore my cloud and DevOps projects</p>
-                    <ul>
-                        <li>
-                            <a href="https://medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
-                                Cloud Resume Challenge - Open Source Implementation
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://medium.com/@mariammbello/behind-the-scenes-of-deploying-an-azure-function-app-a-beginner-adaptation-to-ui-changes-and-022238aa9e77" target="_blank">
-                                Cloud Resume Challenge - Azure Implementation
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https:fixlink//medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
-                                Cloud Resume Challenge - AWS Implementation
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https:fixlink//medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
-                                Cloud Resume Challenge - GCP Implementation
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="card-content">
+                        <i class="fas fa-briefcase path-icon"></i>
+                        <h3>Portfolio Projects</h3>
+                        <p>Explore my cloud and DevOps projects</p>
+                        <ul>
+                            <li>
+                                <a href="https://medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
+                                    Cloud Resume Challenge - Open Source Implementation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://medium.com/@mariammbello/behind-the-scenes-of-deploying-an-azure-function-app-a-beginner-adaptation-to-ui-changes-and-022238aa9e77" target="_blank">
+                                    Cloud Resume Challenge - Azure Implementation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https:fixlink//medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
+                                    Cloud Resume Challenge - AWS Implementation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https:fixlink//medium.com/@mariammbello/building-a-full-devops-pipeline-for-a-cloud-resume-counter-application-using-docker-github-baee01b3986b" target="_blank">
+                                    Cloud Resume Challenge - GCP Implementation
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="card-action">
                         <a href="https://github.com/MariammBello" target="_blank" class="button start-button portfolio">
                             <i class="fab fa-github"></i> View All Projects
@@ -131,31 +137,33 @@
                 </div>
 
                 <div class="path-card blog-card">
-                    <i class="fas fa-blog path-icon"></i>
-                    <h3>Blog Posts</h3>
-                    <p>Explore my technical writing and tutorials</p>
-                    <ul>
-                        <li>
-                            <a href="https://medium.com/@mariammbello/ansible-a-beginners-guide-for-automation-cd779aedaa44" target="_blank">
-                                An Ansible Beginner's Guide for Automation
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://medium.com/@mariammbello/terraform-beginner-cheat-sheet-understanding-the-basics-and-structure-881a496d6211" target="_blank">
-                                Terraform Beginner Cheat Sheet
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://medium.com/@mariammbello/user-and-group-management-in-linux-a-beginners-guide-5dd77e8b2d35" target="_blank">
-                                User and Group Management in Linux: A Beginner's Guide
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://medium.com/@mariammbello/devops-and-its-sooooo-many-tools-e33a65659bd5" target="_blank">
-                                DevOps and its sooooo many tools
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="card-content">
+                        <i class="fas fa-blog path-icon"></i>
+                        <h3>Blog Posts</h3>
+                        <p>Explore my technical writing and tutorials</p>
+                        <ul>
+                            <li>
+                                <a href="https://medium.com/@mariammbello/ansible-a-beginners-guide-for-automation-cd779aedaa44" target="_blank">
+                                    An Ansible Beginner's Guide for Automation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://medium.com/@mariammbello/terraform-beginner-cheat-sheet-understanding-the-basics-and-structure-881a496d6211" target="_blank">
+                                    Terraform Beginner Cheat Sheet
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://medium.com/@mariammbello/user-and-group-management-in-linux-a-beginners-guide-5dd77e8b2d35" target="_blank">
+                                    User and Group Management in Linux: A Beginner's Guide
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://medium.com/@mariammbello/devops-and-its-sooooo-many-tools-e33a65659bd5" target="_blank">
+                                    DevOps and its sooooo many tools
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="card-action">
                         <a href="https://medium.com/@mariammbello" target="_blank" class="button start-button blog">
                             <i class="fab fa-medium"></i> Visit Blog
