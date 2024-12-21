@@ -43,11 +43,13 @@
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
-        <h1><i class="fas fa-cloud"></i> Welcome to Mariam´s Landing page</h1>
-
-        <h2>Project Description</h2>
-        <p>This project is created as my submission for my second semester assessmenta at Altschool Cloud Engineering track 2024. It is an interactive guide to deploying web applications on AWS, designed to teach both beginners and advanced users through a gamified experience. I created this interactive tutorial to help others master cloud infrastructure deployment. My approach combines practical experience with engaging teaching methods.</p>
         
+        <div class="welcome-section">
+            <h1><i class="fas fa-cloud"></i> Welcome to Mariam´s Landing page</h1>
+            <h2>Project Description</h2>
+            <p>This project is created as my submission for my second semester assessmenta at Altschool Cloud Engineering track 2024. It is an interactive guide to deploying web applications on AWS, designed to teach both beginners and advanced users through a gamified experience. I created this interactive tutorial to help others master cloud infrastructure deployment. My approach combines practical experience with engaging teaching methods.</p>
+        </div>
+
         <!-- Add search bar -->
         <div class="search-container">
             <input type="text" id="projectSearch" placeholder="Search projects...">
@@ -349,12 +351,11 @@
                                     <li>Launch a new EC2 instance</li>
                                     <li>Configure Security Groups</li>
                                     <li>Navigate to acquire instance details</li>
-                    
                                 </ol>
                             </div>
                             <div class="media-container">
                                 <iframe 
-                                    src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                                    src="https://www.youtube.com/embed/2zeoNC4cdTA"
                                     title="AWS EC2 Instance Setup"
                                     frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -372,34 +373,33 @@
                     <h2><i class="fas fa-code"></i> Webserver setup </h2>
                 </div>
                 <div class="beginner-guide">
-                    <div class="flex-container">
-                        <div class="setup-container">
-                            <h3><i class="fas fa-terminal"></i> SSH Into Your Server</h3>
-                            <div class="code-snippet">
-                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                                <pre>
-# SSH into your EC2 instance
+                    <h3><i class="fas fa-file-code"></i> SSH into Instance</h3>
+                    <div class="deployment-steps">
+                        <div class="code-snippet">
+                            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            <pre># SSH into your EC2 instance
 ssh -i "your-key.pem" ubuntu@your-ec2-ip
-
 # Install and configure web server
 sudo apt update
 sudo apt install nginx -y
 sudo systemctl start nginx
 sudo systemctl enable nginx</pre>
-                            </div>
-                        </div>
-                        <div class="media-container">
-                            <iframe 
-                                src="https://www.youtube.com/embed/YOUR_SSH_VIDEO_ID"
-                                title="SSH and Nginx Setup"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
                         </div>
                     </div>
                     
-                    <h3><i class="fas fa-file-code"></i> Deploy Frontend Files on the virtual machine</h3>
+                    <h<h3><i class="fas fa-file-code"></i> Deploy Frontend Files on the virtual machine</h3>
+                    <div class="deployment-steps">
+                        <div class="code-snippet">
+                            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            <pre># SSH into your EC2 instance
+                                ssh -i "your-key.pem" ubuntu@your-ec2-ip
+                                # Install and configure web server
+                                sudo apt update
+                                sudo apt install nginx -y
+                                sudo systemctl start nginx
+                                sudo systemctl enable nginx</pre>
+                        </div>
+                    </div>3><i class="fas fa-file-code"></i> Deploy Frontend Files on the virtual machine</h3>
                     <div class="deployment-steps">
                         <div class="code-snippet">
                             <button class="copy-button" onclick="copyCode(this)">Copy</button>
@@ -426,18 +426,8 @@ sudo systemctl restart nginx</pre>
                                 <li>Verify all elements are loading correctly</li>
                                 <li>Check if GIFs are displaying properly</li>
                             </ol>
-                        </div>
-                        <div class="media-container">
-                            <iframe 
-                                src="https://www.youtube.com/embed/YOUR_VERIFY_VIDEO_ID"
-                                title="Deployment Verification"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
-                        </div>
                     </div>
-                </div>
+                </div>c
                 <button class="button next-button" onclick="revealStep(9)">Complete tutorial <i class="fas fa-arrow-right"></i></button>
             </div>
 

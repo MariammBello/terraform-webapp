@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.container').classList.add('sidebar-expanded');
     
     // Add new carousel functionality
-    let currentIndex = 0;
+    let currentIndex = 1; // Start from advanced path
     const track = document.querySelector('.carousel-track');
     const cards = document.querySelectorAll('.path-card');
     const cardWidth = cards[0].offsetWidth + 32; // Include gap
@@ -127,21 +127,31 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateCarousel() {
         const containerWidth = document.querySelector('.carousel-container').offsetWidth;
         const cardWidth = cards[0].offsetWidth + 32; // Include gap
-        const offset = (containerWidth / 2) - (cardWidth / 2);
+        const offset = containerWidth/4; // Adjust offset to show two cards
         const newTransform = -currentIndex * cardWidth + offset;
         
         track.style.transform = `translateX(${newTransform}px)`;
         
         // Update active states
         cards.forEach((card, index) => {
-            const isActive = index === currentIndex;
+            const isActive = index === currentIndex || index === currentIndex + 1;
             card.classList.toggle('active', isActive);
-            
-            // Optional: Also add a "near-active" class for cards adjacent to the active one
-            const isNearActive = Math.abs(index - currentIndex) === 1;
-            card.classList.toggle('near-active', isNearActive);
         });
     }
+
+    // Initialize carousel
+    updateCarousel();
+
+    // Navigation event listeners
+    document.querySelector('.next').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % (cards.length - 1);
+        updateCarousel();
+    });
+
+    document.querySelector('.prev').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + cards.length - 1) % (cards.length - 1);
+        updateCarousel();
+    });
 
     // Add automatic rotation if desired
     let autoplayInterval;
