@@ -3,10 +3,11 @@
 
 /* Update container styles to remove sidebar-related margins */
 .container {
-    margin: 0 auto;
+    margin: 0;
     padding: 20px;
-    max-width: 900px;
-    width: 90%;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
     box-sizing: border-box;
 }
 
@@ -48,13 +49,6 @@
     font-size: 1em; /* Reduced from 1.1em */
     margin: 0.8rem 0;
     line-height: 1.5;
-}
-
-.modal-content .button {
-    margin-top: 2rem;
-    width: auto;
-    min-width: 200px;
-    padding: 12px 24px;
 }
 
 /* Update menu toggle styles */
@@ -131,15 +125,16 @@
 
 /* Update container styles */
 .container {
-    margin: 0 auto;
+    margin: 0;
     padding: 20px;
-    max-width: 900px;
-    width: 90%;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
     box-sizing: border-box;
 }
 
 .container.sidebar-expanded {
-    margin-left: 300px;
+    margin-left: 10px;
 }
 
 .container.sidebar-collapsed {
@@ -169,11 +164,14 @@ html {
 }
 
 body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
     color: #fff;
-    margin: 0;
-    padding: 0;
 }
 
 .container {
@@ -630,14 +628,13 @@ p {
 }
 
 .path-card {
-    background: linear-gradient(135deg, #2a2a3a 0%, #3a3a4a 100%);
-    padding: 2rem;
+    flex: 0 0 300px;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
-    flex: 1;
-    max-width: 400px;
-    text-align: left;
-    transition: transform 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    box-sizing: border-box;
+    margin: 0 10px;
 }
 
 .path-card:hover {
@@ -890,55 +887,96 @@ p {
 /* Carousel Styles */
 .carousel-container {
     position: relative;
-    width: 100%;
-    margin: 2rem auto;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 1rem 0;
+    padding: 0;
     overflow: visible;
-    border: none;
 }
 
 .carousel-track {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     transition: transform 0.3s ease-in-out;
-    width: 100%;
-    padding: 1rem 0;
-    margin-left: -10%;
+    padding: 0 20px;
+    margin: 0;
 }
 
 .path-card {
-    flex: 0 0 280px;
-    min-width: 280px;
-    margin: 0;
+    flex: 0 0 300px;
+    min-width: 300px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     padding: 1.5rem;
     box-sizing: border-box;
+    margin: 0 10px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-    .carousel-track {
-        grid-template-columns: repeat(2, 1fr); /* Show 2 cards on medium screens */
-    }
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.carousel-button.prev {
+    left: 5px;
+}
+
+.carousel-button.next {
+    right: 5px;
 }
 
 @media (max-width: 768px) {
-    .carousel-track {
-        grid-template-columns: 1fr; /* Single column on mobile */
-        gap: 1rem;
-    }
-    
-    .carousel-button {
-        display: none; /* Hide arrows on mobile */
-    }
-    
     .carousel-container {
-        padding: 0 20px;
+        padding: 0;
+    }
+    
+    .carousel-track {
+        padding: 0 10px;
+        gap: 15px;
     }
     
     .path-card {
-        min-height: auto;
+        flex: 0 0 280px;
+        min-width: 280px;
     }
+    
+    .carousel-button {
+        display: none;
+    }
+}
+
+.about-me-btn {
+    position: relative;
+    display: block;
+    margin: 1rem auto;
+    background: rgba(33, 150, 243, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 1000;
+    width: fit-content;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.about-me-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
 }
 
 /* Projects Card Specific Styles */
@@ -959,92 +997,6 @@ p {
     .path-card {
         flex: 0 0 calc(100% - 2rem);
     }
-}
-
-// ...existing code...
-
-/* Update carousel styles */
-.carousel-container {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 60px;
-    overflow: hidden;
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.path-card {
-    flex: 0 0 calc(33.333% - 2rem);
-    position: relative;
-    padding-bottom: 60px; /* Space for button */
-}
-
-/* Card action buttons */
-.card-action {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    width: auto;
-    transform: none;
-}
-
-.button.start-button {
-    margin: 0 auto;
-    width: auto;
-    min-width: 160px;
-}
-
-/* Move reset journey button */
-.reset-container {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-/* Update responsive styles */
-@media (max-width: 768px) {
-    .path-card {
-        flex: 0 0 calc(100% - 2rem);
-        padding-bottom: 80px;
-    }
-}
-
-// ...existing code...
-
-/* Update card and button styles */
-.path-card {
-    /* ...existing code... */
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    min-height: 400px; /* Set a minimum height */
-}
-
-.card-action {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    width: auto;
-    transform: none;
-}
-
-.button.start-button {
-    margin: 0 auto;
-    width: auto;
-    min-width: 160px;
 }
 
 /* Blog Card Specific Styles */
@@ -1171,29 +1123,6 @@ p {
 .close:hover {
     color: #00d4ff;
 }
-.about-me-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(33, 150, 243, 0.9);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 10px 20px;
-    cursor: pointer;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9em;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-}
-
-.about-me-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
-}
 
 /* Animations */
 @keyframes bounceIn {
@@ -1219,8 +1148,6 @@ p {
 
 /* ...existing code... */
 
-/* ...existing code... */
-
 body {
     max-width: 100vw;
     overflow-x: hidden;
@@ -1239,7 +1166,7 @@ body {
 /* Center welcome content */
 .welcome-section {
     max-width: 800px;
-    margin: 2rem auto;
+    margin: 0 auto 2rem;
     text-align: center;
 }
 
@@ -1272,12 +1199,69 @@ h1, h2, p {
 }
 
 .welcome-section {
-    max-width: 800px;
-    margin: 0 auto 2rem;
-    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .search-container {
     max-width: 600px;
     margin: 2rem auto;
+}
+
+/* Make welcome section responsive */
+.welcome-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Make carousel container responsive while preserving smooth scroll */
+.carousel-container {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 1rem 0;
+    padding: 0;
+    overflow: visible;
+}
+
+/* Responsive path cards */
+.path-card {
+    flex: 0 0 300px;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    margin: 0 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .welcome-section {
+        padding: 10px;
+    }
+    
+    .path-card {
+        flex: 0 0 280px;
+        min-width: 280px;
+        padding: 1rem;
+    }
+}
+
+/* Make path containers responsive */
+.path-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
 }

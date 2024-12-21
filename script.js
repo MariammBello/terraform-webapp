@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTerraformConfig();
     
     // Add sidebar-expanded class to container on page load
-    document.querySelector('.container').classList.add('sidebar-expanded');
+    // document.querySelector('.container').classList.add('sidebar-expanded');
     
     // Add new carousel functionality
     let currentIndex = 1; // Start from advanced path
