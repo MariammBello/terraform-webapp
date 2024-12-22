@@ -2,6 +2,8 @@
 
 This guide explains how to deploy a secure and automated web server on AWS using Terraform, an EC2 instance, and Nginx. Static files are served from a provisioned S3 bucket, and SSL certificates are automatically provisioned using Let's Encrypt. Installations and updates are done in a bash script that is executed from the terraform automation. 
 By the end of this guide, you will have a fully configured HTTPS-enabled web server with automated deployment.
+## Architecture Diagram
+[View the architecture diagram on Excalidraw](https://excalidraw.com/#json=db3E_IK8fQmK5U9ztsKZb,kpV_kGpBEVZnInVypnASrw)
 
 # Checkout the website deployed 
  - [**IP Address: http://98.85.131.86**](http://98.85.131.86)
