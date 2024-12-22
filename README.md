@@ -29,9 +29,8 @@ For now, you may go through the setup instructions to understand the nitty gritt
 
 
 
-## What the main automation Terraform (main.tf) setup does
-
-
+# HTML Page Deployment block 
+This is done within a terraform code (main.tf) to enable automation and reproducibility of assignment.  
 
 ### S3 Bucket Setup : 
 Amazon S3 (Simple Storage Service) is a highly scalable storage solution for files, objects, and backups. Using Terraform, we can automate the creation and configuration of an S3 bucket. Let’s break down the code snippet into its components
@@ -164,6 +163,8 @@ Example: If you’re uploading index.html, the source should be the path to inde
      - text/css → Interpreted as a CSS stylesheet.
      - application/javascript → Treated as a JavaScript file.
 - ```etag```: Adds a hash (MD5 checksum) of the file using the filemd5() function. It ensures the file is uploaded only if its content has changed. Avoids unnecessary uploads, making deployments faster and more efficient.
+
+# Provisioning the server
 
 ### Creating the IAM Role and Instance Profile with Policies
 This Terraform code creates an IAM role for EC2 instances, an instance profile, and attaches a policy that grants specific permissions to the role. 
@@ -504,6 +505,8 @@ Ensures the ssh_resource is re-applied if any of the S3 objects (HTML, CSS, JS, 
 }
 ```
 
+# Networking 
+
 ### Domain name assignment
 This variable block defines a variable named domain_name, which is used to specify the domain name for the SSL certificate in your Terraform configuration.
 
@@ -554,7 +557,10 @@ This Uses a conditional expression to determine the domain used for the SSL cert
 
 They are displayed in the terminal after terraform apply or terraform output.
 
-# BASH Script - Installation and Updates
+
+# Web Server Setup
+
+### BASH Script - Installation and Updates
 
 This script automates the setup of an Nginx-based web server, including installing necessary packages, setting up SSL certificates, configuring Nginx, and deploying static files from an S3 bucket.
 
@@ -626,7 +632,7 @@ sudo sed -i "s/server_name _;/server_name ${domain_name};/g" /etc/nginx/sites-av
 **Download Configuration:** Copies the Nginx configuration file (default) from the S3 bucket.
 **Update Domain Name:** Replaces the placeholder server_name _; with the actual domain name.
 
-### Set Up SSL Certificates
+# Configuring HTTPS using a free SSL Certificates
 
 ```bash
 Copy code
