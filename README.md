@@ -1,12 +1,17 @@
 # Web Server Setup with SSL and Static Files - Documentation
 
-![Website Preview](website_image.jpg)
-              - [***IP Address: http://98.85.131.86***](http://98.85.131.86)
-              - [***Website with ssl: https://cloud.3figirl.com***](https://cloud.3figirl.com)
-
 This guide explains how to deploy a secure and automated web server on AWS using Terraform, an EC2 instance, and Nginx. Static files are served from a provisioned S3 bucket, and SSL certificates are automatically provisioned using Let's Encrypt. Installations and updates are done in a bash script that is executed from the terraform automation. 
 By the end of this guide, you will have a fully configured HTTPS-enabled web server with automated deployment.
 
+# Checkout the website deployed 
+ - [**IP Address: http://98.85.131.86**](http://98.85.131.86)
+ - [***Website secure url: https://cloud.3figirl.com***](https://cloud.3figirl.com)
+
+
+![Website Preview](website_image.jpg)
+               [***snapshot of website landing page***](https://cloud.3figirl.com)
+
+# How it was built. 
 
 What you'll need before starting, ensure you have the following:
 - AWS Account: Required to create resources (EC2, S3, IAM, etc).
@@ -18,12 +23,15 @@ What you'll need before starting, ensure you have the following:
 - Replace ssh key information in terraform main.tf 
 - Once all the requirements are made, and you decide to clone this repo, replace the index.html, style.css and script.js to your preffered files. 
 - To Deploy the webpage please see deployment instructions at the end of the documentation
-
+- After deplpoyment, don't forget to run ```terraform destroy``` to stop all resources and save cost. This means the website will be shut down
+  
 For now, you may go through the setup instructions to understand the nitty gritty of the repository and code base
 
 
 
 ## What the main automation Terraform (main.tf) setup does
+
+
 
 ### S3 Bucket Setup : 
 Amazon S3 (Simple Storage Service) is a highly scalable storage solution for files, objects, and backups. Using Terraform, we can automate the creation and configuration of an S3 bucket. Let’s break down the code snippet into its components
@@ -730,6 +738,6 @@ Once the deployment completes, Terraform will output essential information:
 - Bucket Name: S3 bucket name for static file management.
 - SSL Domain: The domain (custom or .nip.io) configured for SSL.
 
-# Remember to replace the statics with yours 
+#### Remember to replace the statics with yours 
 
 With this setup, you have a robust foundation for deploying secure, scalable web applications on AWS. It's a perfect starting point for building advanced infrastructure with Terraform! 🚀
