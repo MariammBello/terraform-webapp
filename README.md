@@ -53,6 +53,412 @@ resource "aws_s3_bucket" "static_files" {
 - ```force_destroy = true```:Allows Terraform to delete the bucket even if it contains objects. ***Why?*** Normally, S3 buckets cannot be deleted if they contain files or objects.
 When force_destroy is true, Terraform automatically deletes everything inside the bucket before deleting the bucket itself. This aids automation and reduces the need to manually remove resources
 
+### Uploading static files as s3 objects
+The aws_s3_object resource represents a single file that you want to upload to an S3 bucket. Each file will have a key (its name in the bucket), source (where it is on your system), and metadata (e.g., content type).
+
+**Uploading Html code sample object**
+```hcl
+resource "aws_s3_object" "html_file" {
+  bucket = aws_s3_bucket.static_files.id
+  key    = "index.html"
+  source = "index.html"
+  content_type = "text/html"
+  etag = filemd5("index.html")
+}
+```
+- ```bucket``` This specifies the target S3 bucket where the file will be uploaded.
+- ```Value: aws_s3_bucket.static_files.id```: dynamically references the ID of the S3 bucket created elsewhere in your configuration.
+- ```key``` Defines the name of the file in the bucket. This name is used to access the file in the bucket (e.g., index.html will be stored as https://<bucket-name>.s3.amazonaws.com/index.html).
+- ```source``` This points to the local file on your machine that you want to upload.
+Example: If you’re uploading index.html, the source should be the path to index.html on your system.
+- ```content_type```: This specifies the file type (MIME type) for the uploaded object. It ensures the file is interpreted correctly by browsers or applications. For example:
+     - text/html → Web browsers treat it as an HTML page.
+     - text/css → Interpreted as a CSS stylesheet.
+     - application/javascript → Treated as a JavaScript file.
+- ```etag```: Adds a hash (MD5 checksum) of the file using the filemd5() function. It ensures the file is uploaded only if its content has changed. Avoids unnecessary uploads, making deployments faster and more efficient.
+
+# Provisioning the server
+
+### Creating EC2 Instance and Elastic IP Configuration to host website on.
+This Terraform configuration deploys an EC2 instance with necessary configurations and an Elastic IP (EIP) for consistent public access. It references other resources such as an IAM instance profile, security group, and S3 objects previously created (See source code explained at the end of doc for full details).
+
+**1. EC2 Instance (aws_instance)**: The EC2 instance serves as the web server hosting your application. It references:
+- A security group for access control.
+- An IAM instance profile for permissions.
+- S3 objects for static files and Nginx configuration.
+```
+resource "aws_instance" "web_server" {
+  depends_on = [
+    aws_iam_instance_profile.ec2_profile,
+    aws_security_group.web_sg,
+    aws_s3_object.nginx_config
+  ]
+  ami           = "ami-0e2c8caa4b6378d8c"
+  instance_type = "t2.micro"              
+  key_name      = aws_key_pair.deployer.key_name  // Reference the created key pair
+  vpc_security_group_ids = [aws_security_group.web_sg.id]  // Direct reference
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name  // Direct reference
+
+  user_data = base64encode(templatefile("install_webserver.sh", {
+    bucket_name = aws_s3_bucket.static_files.id
+    html_key    = aws_s3_object.html_file.key
+    css_key     = aws_s3_object.css_file.key
+    js_key      = aws_s3_object.js_file.key
+    nginx_config_key = aws_s3_object.nginx_config.key
+    domain_name = var.domain_name
+  }))
+
+  ``` 
+```depends_on```: Ensures the instance is created only after the listed resources are available:
+- IAM instance profile (ec2_profile): For permissions.
+- Security group (web_sg): For network access control.
+- S3 object (nginx_config): Ensures configuration is ready before instance creation.
+-  **```ami```**: Specifies the Amazon Machine Image (AMI) to use for the instance. The AMI determines the operating system and base configuration for the EC2 instance.
+- ```instance_type```: Specifies the size of the instance. Determines the compute, memory, and network capacity.
+- ```key_name```: References the name of an existing key pair for SSH access to the instance.
+- ```vpc_security_group_ids```: Associates the instance with a security group (web_sg), controlling inbound and outbound traffic.
+- ```iam_instance_profile```: Links the EC2 instance to the IAM instance profile, granting it the permissions defined in the IAM role.
+
+  ```
+**2. Elastic IP (aws_eip)**: An Elastic IP provides a static public IP address for the EC2 instance. This ensures the web server's IP does not change, even if the instance is stopped and restarted.
+
+```hcl
+resource "aws_eip" "web_eip" {
+  instance = aws_instance.web_server.id
+  domain   = "vpc"
+}
+```
+- ```instance```: Links the Elastic IP to the EC2 instance (web_server).
+- ```domain```: Specifies the networking domain. For VPC instances, this is always "vpc".
+- ```Dependencies```: The depends_on block ensures all prerequisites (IAM role, security group, S3 objects) are in place before the instance is created.
+  
+**3.  Security Group**
+A security group acts as a virtual firewall for your EC2 instance, controlling inbound (ingress) and outbound (egress) traffic. In this case, the security group: Allows HTTP (port 80), HTTPS (port 443), and SSH (port 22) traffic and Permits all outbound traffic.
+
+```hcl
+resource "aws_security_group" "web_sg" {
+  name        = "altschool-web-sg"
+  description = "Allow HTTP, HTTPS and SSH traffic"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+}
+
+ ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+  }
+}
+
+```
+
+- name: Assigns a fixed name (altschool-web-sg) to the security group, making it easier to identify in the AWS console.
+- description: Explains the purpose of the security group.
+- Definining rules for inbound traffic:
+    - Port 22 (SSH): Allows secure remote access.
+    - Port 80 (HTTP): Enables access to the web server via a browser.
+    - Port 443 (HTTPS): Supports secure web traffic.
+    - cidr_blocks = ["0.0.0.0/0"]: Allows traffic from any IP address. In production, you should restrict this to specific IPs for security.
+egress Block
+
+Defining rules for outbound traffic:
+Allows all outbound traffic (from_port = 0, to_port = 0, protocol = "-1").
+
+**4. Key Pair (aws_key_pair)**
+A key pair is used to securely SSH into your EC2 instance. The public key is stored in AWS, while the private key is kept on your machine for authentication.
+
+key_name
+
+Assigns a name to the key pair (mariamhostspace). This name will be referenced in your EC2 instance configuration.
+public_key
+
+Specifies the path to your public key file (mariamhostspace.pub).
+Ensure File Exists: The public key must already exist in your project directory. Use ssh-keygen to generate it if you don’t have one.
+How to Generate a Key Pair
+Open your terminal or command prompt.
+
+Run the following command to generate a new SSH key pair:
+
+```bash
+ssh-keygen -t rsa -b 2048 -f mariamhostspace
+```
+This will create:
+
+A private key: mariamhostspace.pem
+A public key: mariamhostspace.pub
+Ensure the .pem file has the correct permissions:
+
+```bash
+chmod 400 mariamhostspace.pem
+```
+# Networking & Web Server Setup
+### Done using a BASH Script - Installation and Updates
+This script automates the setup of an Nginx-based web server, including installing necessary packages, setting up SSL certificates, configuring Nginx, and deploying static files from an S3 bucket.
+
+### Script Setup
+```bash
+#!/bin/bash
+set -e
+```
+- ```#!/bin/bash```: Specifies that this script will run in the Bash shell.
+- ```set -e```: Causes the script to exit immediately if any command fails, ensuring that errors are handled without proceeding to subsequent steps.
+
+
+### Function to Check and Install Packages
+```bash
+check_install() {
+    if ! command -v $1 &> /dev/null; then
+        echo "Installing $1..."
+        sudo apt update -y
+        sudo apt install -y $1
+    else
+        echo "$1 is already installed"
+    fi
+}
+```
+
+- ```check_install()```: A reusable function to check if a package is installed and install it if it’s not.
+- ```command -v $1```: Checks if the given command exists in the system ($1 is the argument passed to the function).
+- ```sudo apt install -y $1```: Installs the required package if it’s missing.
+
+### Install Required Packages
+```bash
+check_install nginx
+check_install certbot
+check_install python3-certbot-nginx
+```
+- **nginx**: A web server to host the static website.
+- **certbot**: A tool to obtain and manage SSL certificates from Let's Encrypt.
+- **python3-certbot-nginx**: A Certbot plugin for managing Nginx SSL configurations.
+
+### Install AWS CLI v2
+```
+if ! command -v aws &> /dev/null; then
+    echo "Installing AWS CLI v2..."
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip
+    sudo ./aws/install
+    rm -f awscliv2.zip
+    rm -rf aws/
+else
+    echo "AWS CLI is already installed"
+fi
+```
+This checks if AWS CLI v2 is installed. If not, it downloads the AWS CLI installer, installs it using the install script and cleans up installation files to save disk space.
+
+### Create Web Directory
+```bash
+if [ ! -d "/var/www/html" ]; then
+    sudo mkdir -p /var/www/html
+fi
+```
+This ensures the web directory exists (/var/www/html), where static files will be served by Nginx.
+```mkdir -p```: Creates the directory and any parent directories if they don’t exist.
+
+### Configure Nginx
+```bash
+sudo aws s3 cp "s3://${bucket_name}/${nginx_config_key}" /etc/nginx/sites-available/default
+sudo sed -i "s/server_name _;/server_name ${domain_name};/g" /etc/nginx/sites-available/default
+```
+**Download Configuration:** Copies the Nginx configuration file (default) from the S3 bucket.
+**Update Domain Name:** Replaces the placeholder server_name _; with the actual domain name.
+
+# Configuring HTTPS using a free SSL Certificates
+
+```bash
+Copy code
+if [ -n "${domain_name}" ]; then
+    # Certbot for domain-based SSL
+    sudo certbot certonly --standalone -d ${domain_name} --non-interactive --agree-tos --email admin@${domain_name}
+    sudo sed -i "s|/etc/letsencrypt/live/default/|/etc/letsencrypt/live/${domain_name}/|g" /etc/nginx/sites-available/default
+else
+    # Fallback to nip.io-based SSL
+    PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+    sudo certbot --nginx --register-unsafely-without-email --agree-tos -d $PUBLIC_IP.nip.io --non-interactive
+fi
+```
+**Domain Name SSL**: If domain_name is provided, it uses Certbot in standalone mode to generate an SSL certificate for the domain.
+**Updates Nginx configuration** to point to the certificate files.
+**Fallback SSL**:If domain_name is not provided it uses the public IP address with a .nip.io domain (a wildcard DNS service) to generate an SSL certificate.
+
+### Configure Certificate Renewal
+```bash
+if [ ! -f "/etc/cron.d/certbot-renew" ]; then
+    echo "Setting up certificate renewal..."
+    echo "0 12 * * * /usr/bin/certbot renew --quiet --post-hook '/bin/systemctl reload nginx'" | sudo tee /etc/cron.d/certbot-renew
+    sudo chmod 600 /etc/cron.d/certbot-renew
+fi
+```
+This chunk Adds a cron job to automatically renew SSL certificates every day at noon. After renewal, Nginx is reloaded to apply the updated certificates.
+
+### Deploy Static Files earlier uploaded from S3
+```bash
+sudo aws s3 cp "s3://${bucket_name}/${html_key}" /var/www/html/index.html
+sudo aws s3 cp "s3://${bucket_name}/${css_key}" /var/www/html/style.css
+sudo aws s3 cp "s3://${bucket_name}/${js_key}" /var/www/html/script.js
+```
+This downloads static files (HTML, CSS, JS) from the specified S3 bucket and stores them in the /var/www/html directory.
+
+### Update File Permissions
+```bash
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+```
+This ensures Nginx (running as www-data) owns the static files. It grants read/write/execute permissions to the owner and read/execute permissions to others.
+
+### Restart Nginx
+```bash
+sudo systemctl enable nginx
+sudo systemctl restart nginx
+```
+It ensures Nginx starts automatically on boot (enable). Restarts Nginx to apply the new configuration and serve the website.
+
+### Final Message
+```bash
+echo "Setup completed successfully!"
+```
+Indicates that the setup process has finished without errors.
+
+## Output blocks
+Once the terraform commands for deployment (See deployment intructions), are run, the output block in Terraform will display information about resources after they are created. This can be useful for referencing key details (e.g., public IPs, bucket names, etc.) or sharing outputs with other modules.
+
+***Public IP of the Web Server***
+```hcl
+output "public_ip" {
+  value       = aws_eip.web_eip.public_ip
+  description = "Public IP of the web server"
+}
+```
+This outputs the public IP of the Elastic IP (aws_eip.web_eip) associated with the EC2 instance, which is required to access the instance over the internet.. This value will be dynamically generated when Terraform applies the configuration. This output is also required to ssh into the server when necessary for things like troubleshooting or manual adjustments. 
+
+***Name of the Created S3 Bucket***
+```hcl
+output "bucket_name" {
+  value       = aws_s3_bucket.static_files.id
+  description = "Name of the created S3 bucket"
+}
+```
+This references the the unique ID of the S3 bucket created earlier. The bucket ID is typically the same as its name. This outputs the name of the S3 bucket, which is helpful for tasks like uploading files manually or troubleshooting.
+
+***SSL Domain***
+```hcl
+output "ssl_domain" {
+  value       = var.domain_name != "" ? var.domain_name : "${aws_eip.web_eip.public_ip}.nip.io"
+  description = "Domain name or IP used for SSL certificate"
+}
+```
+
+This Uses a conditional expression to determine the domain used for the SSL certificate,  it decides which domain to use for SSL setup based on whether a custom domain was provided.
+
+They are displayed in the terminal after terraform apply or terraform output.
+
+
+# Deployment Instructions
+### Initialize the Terraform project:
+The first step is to initialize Terraform in your project directory. This sets up the required backend and downloads necessary provider plugins.
+   ```bash
+   terraform init
+   ``` 
+
+### Deploy only the Elastic IP:
+
+```bash
+terraform apply -target=aws_eip.web_eip
+```
+
+This command focuses on creating just the Elastic IP (EIP) resource from your Terraform configuration, without deploying the rest of the infrastructure. It is useful in scenarios where yYou need the public IP address for tasks like DNS setup before deploying other resources.
+
+### Retrieve public IP 
+This step is essential if you need the public IP to add to your DNS record and assign a domain name. You want to see the IP for SSH access to the server.
+
+```bash
+terraform output public_ip
+```
+### Add a DNS Record (Optional)
+If you have a domain name and want to use it to access your web server, you need to add a DNS record to link the domain to the public IP of your web server (Elastic IP). This is a manual step. This allows users to access your website or application using a human-friendly domain name instead of the raw IP address.
+
+You may have to take steps like 
+- Log in to Your Domain Registrar to access your domain provider’s DNS management settings.
+- Create a New A Record: 
+     - Type: A, Name: @ (or www for a subdomain)
+     - Value: The Elastic IP from Terraform output (e.g., 54.123.45.67).
+     - TTL: (Optional) The time-to-live value, typically set to 3600 seconds (1 hour).
+- Save the Record: Save the record and allow time for DNS propagation (can take a few minutes to hours)
+
+### Deploy the full configuration:
+**If you have added a DNS record for your custom domain, run:**
+
+```bash
+terraform apply -var="domain_name=example.com"
+```
+This replaces the default domain in your Terraform configuration (cloud.3figirl.com) with your custom domain (example.com). It also Configures SSL certificates for your domain using Certbot.
+
+**If you dont have  a DNS record for your custom domain, run:**
+
+ ```bash
+ terraform apply
+ ```
+ Terraform will fall back to using the public IP of your server and create a temporary .nip.io domain for SSL.
+
+ ###  Verify the Deployment
+Once the deployment completes, Terraform will output essential information:
+- Public IP: Use this to SSH into the server or configure your DNS.
+- Bucket Name: S3 bucket name for static file management.
+- SSL Domain: The domain (custom or .nip.io) configured for SSL.
+
+#### Remember to replace the statics with yours 
+
+With this setup, you have a robust foundation for deploying secure, scalable web applications on AWS. It's a perfect starting point for building advanced infrastructure with Terraform! 🚀
+
+# END OF DOC - Onward is TLDR and only for those who want to understand and replicate this deployment script
+This part describe every line of code in the repository
+
+# HTML Page Deployment
+This is done within a terraform code (main.tf) to enable automation and reproducibility of assignment.  
+
+### S3 Bucket Setup : 
+Amazon S3 (Simple Storage Service) is a highly scalable storage solution for files, objects, and backups. Using Terraform, we can automate the creation and configuration of an S3 bucket. Let’s break down the code snippet into its components
+
+The terraform block creates an S3 bucket with a globally unique name to storee the static frontend files - index.html, style.css, and script.js. It also Enables versioning to track file changes and Sets up lifecycle rules to delete old file versions after 1 day.
+
+s3 Bucket Creation Block in AWS (The Terraform code can be cloned in my repository)
+
+```yaml
+resource "aws_s3_bucket" "static_files" {
+  bucket        = "mariam-altschool-static-2024"
+  force_destroy = true
+``` 
+**Key Points**
+
+- ```resource "aws_s3_bucket"```: This is the resource block in Terraform. It tells Terraform to create an S3 bucket using the AWS provider.
+- ```aws_s3_bucket```: This is the resource type. AWS S3 bucket resources are defined using this block.
+- ```static_files```:This is the logical name you give to the resource in Terraform. You can reference this name elsewhere in the code.
+- ```bucket = "globally unique name"```: The name of the S3 bucket must be globally unique across all AWS accounts and regions. Example: "my-static-files-1234".
+- ```force_destroy = true```:Allows Terraform to delete the bucket even if it contains objects. ***Why?*** Normally, S3 buckets cannot be deleted if they contain files or objects.
+When force_destroy is true, Terraform automatically deletes everything inside the bucket before deleting the bucket itself. This aids automation and reduces the need to manually remove resources
+
 ### Lifecycle Configuration : 
 The lifecycle block controls how Terraform manages this resource during updates or deletions.
 
@@ -691,59 +1097,3 @@ echo "Setup completed successfully!"
 Indicates that the setup process has finished without errors.
 
 
-# Deployment Instructions
-### Initialize the Terraform project:
-The first step is to initialize Terraform in your project directory. This sets up the required backend and downloads necessary provider plugins.
-   ```bash
-   terraform init
-   ``` 
-
-### Deploy only the Elastic IP:
-
-```bash
-terraform apply -target=aws_eip.web_eip
-```
-
-This command focuses on creating just the Elastic IP (EIP) resource from your Terraform configuration, without deploying the rest of the infrastructure. It is useful in scenarios where yYou need the public IP address for tasks like DNS setup before deploying other resources.
-
-### Retrieve public IP 
-This step is essential if you need the public IP to add to your DNS record and assign a domain name. You want to see the IP for SSH access to the server.
-
-```bash
-terraform output public_ip
-```
-### Add a DNS Record (Optional)
-If you have a domain name and want to use it to access your web server, you need to add a DNS record to link the domain to the public IP of your web server (Elastic IP). This is a manual step. This allows users to access your website or application using a human-friendly domain name instead of the raw IP address.
-
-You may have to take steps like 
-- Log in to Your Domain Registrar to access your domain provider’s DNS management settings.
-- Create a New A Record: 
-     - Type: A, Name: @ (or www for a subdomain)
-     - Value: The Elastic IP from Terraform output (e.g., 54.123.45.67).
-     - TTL: (Optional) The time-to-live value, typically set to 3600 seconds (1 hour).
-- Save the Record: Save the record and allow time for DNS propagation (can take a few minutes to hours)
-
-### Deploy the full configuration:
-**If you have added a DNS record for your custom domain, run:**
-
-```bash
-terraform apply -var="domain_name=example.com"
-```
-This replaces the default domain in your Terraform configuration (cloud.3figirl.com) with your custom domain (example.com). It also Configures SSL certificates for your domain using Certbot.
-
-**If you dont have  a DNS record for your custom domain, run:**
-
- ```bash
- terraform apply
- ```
- Terraform will fall back to using the public IP of your server and create a temporary .nip.io domain for SSL.
-
- ###  Verify the Deployment
-Once the deployment completes, Terraform will output essential information:
-- Public IP: Use this to SSH into the server or configure your DNS.
-- Bucket Name: S3 bucket name for static file management.
-- SSL Domain: The domain (custom or .nip.io) configured for SSL.
-
-#### Remember to replace the statics with yours 
-
-With this setup, you have a robust foundation for deploying secure, scalable web applications on AWS. It's a perfect starting point for building advanced infrastructure with Terraform! 🚀
