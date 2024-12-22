@@ -79,10 +79,8 @@ Example: If you’re uploading index.html, the source should be the path to inde
 ### Creating EC2 Instance and Elastic IP Configuration to host website on.
 This Terraform configuration deploys an EC2 instance with necessary configurations and an Elastic IP (EIP) for consistent public access. It references other resources such as an IAM instance profile, security group, and S3 objects previously created (See source code explained at the end of doc for full details).
 
-**1. EC2 Instance (aws_instance)**: The EC2 instance serves as the web server hosting your application. It references:
-- A security group for access control.
-- An IAM instance profile for permissions.
-- S3 objects for static files and Nginx configuration.
+**1. EC2 Instance (aws_instance)**: The EC2 instance serves as the web server hosting your application. Creating this depends on a security group for access control, an IAM instance profile for permissions and the S3 objects for static files and Nginx configuration in this setup (detailed in the second more advanced part of doc)
+
 ```
 resource "aws_instance" "web_server" {
   depends_on = [
