@@ -1,4 +1,4 @@
-# Web Server Setup with SSL and Static Files - Documentation
+# Automating Secure Web Server Deployment with Terraform: A Custom Landing Page Project.
 
 This guide explains how to deploy a secure and automated web server on AWS using Terraform, an EC2 instance, and Nginx. Static files are served from a provisioned S3 bucket, and SSL certificates are automatically provisioned using Let's Encrypt. Installations and updates are done in a bash script that is executed from the terraform automation. 
 By the end of this guide, you will have a fully configured HTTPS-enabled web server with automated deployment.
