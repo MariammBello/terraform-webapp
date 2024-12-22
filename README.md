@@ -22,12 +22,9 @@ What you'll need before starting, ensure you have the following:
 - SSH Key Pair: Create a key pair to SSH into the EC2 instance. Use ssh-keygen to generate the keys: ```ssh-keygen -t rsa -b 2048 -f mariamhostspace```. This generates private and public key for SSH.
 - Replace ssh key information in terraform main.tf 
 - Once all the requirements are made, and you decide to clone this repo, replace the index.html, style.css and script.js to your preffered files. 
-- To Deploy the webpage please see deployment instructions at the end of the documentation
-- After deplpoyment, don't forget to run ```terraform destroy``` to stop all resources and save cost. This means the website will be shut down
-  
-For now, you may go through the setup instructions to understand the nitty gritty of the repository and code base
+- To Deploy the webpage please see deployment instructions at the end of the documentation.
 
-
+Lets go!
 
 # HTML Page Deployment
 This is done within a terraform code (main.tf) to enable automation and reproducibility of assignment.  
@@ -426,6 +423,9 @@ Once the deployment completes, Terraform will output essential information:
 - Public IP: Use this to SSH into the server or configure your DNS.
 - Bucket Name: S3 bucket name for static file management.
 - SSL Domain: The domain (custom or .nip.io) configured for SSL.
+
+### Terraform destroy
+- After deplpoyment, don't forget to run ```terraform destroy``` to stop all resources and save cost. This means the website will be shut down
 
 #### Remember to replace the statics with yours 
 
