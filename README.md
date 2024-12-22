@@ -288,7 +288,6 @@ sudo sed -i "s/server_name _;/server_name ${domain_name};/g" /etc/nginx/sites-av
 # Configuring HTTPS using a free SSL Certificates
 
 ```bash
-Copy code
 if [ -n "${domain_name}" ]; then
     # Certbot for domain-based SSL
     sudo certbot certonly --standalone -d ${domain_name} --non-interactive --agree-tos --email admin@${domain_name}
@@ -747,7 +746,6 @@ Open your terminal or command prompt.
 Run the following command to generate a new SSH key pair:
 
 bash
-Copy code
 ssh-keygen -t rsa -b 2048 -f mariamhostspace
 This will create:
 
@@ -756,7 +754,6 @@ A public key: mariamhostspace.pub
 Ensure the .pem file has the correct permissions:
 
 bash
-Copy code
 chmod 400 mariamhostspace.pem
 
 
@@ -1041,7 +1038,6 @@ sudo sed -i "s/server_name _;/server_name ${domain_name};/g" /etc/nginx/sites-av
 # Configuring HTTPS using a free SSL Certificates
 
 ```bash
-Copy code
 if [ -n "${domain_name}" ]; then
     # Certbot for domain-based SSL
     sudo certbot certonly --standalone -d ${domain_name} --non-interactive --agree-tos --email admin@${domain_name}
