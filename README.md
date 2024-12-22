@@ -29,7 +29,7 @@ For now, you may go through the setup instructions to understand the nitty gritt
 
 
 
-# HTML Page Deployment block 
+# HTML Page Deployment
 This is done within a terraform code (main.tf) to enable automation and reproducibility of assignment.  
 
 ### S3 Bucket Setup : 
